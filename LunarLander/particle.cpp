@@ -1,6 +1,12 @@
+#define _USE_MATH_DEFINES
+
 #include <cmath>
+#include <gl/freeglut.h>
 #include "particle.h"
 
+
+
+particle::particle(){}
 particle::particle(float x, float y, float speed, float direction, float grav)
 {
 	position = vector(x, y);
@@ -23,7 +29,7 @@ void particle::update()
 
 float particle::angleTo(particle p2)
 {
-	return atan2(p2.position.getY() - position.getY(), p2.position.getX() - position.getX());
+	return -atan2f(p2.position.getY() - position.getY(), p2.position.getX() - position.getX())+ M_PI /2;
 }
 
 float particle::distanceTo(particle p2)
@@ -44,6 +50,18 @@ void particle::gravitateTo(particle p2)
 
 	velocity.addTo(grav);
 
+}
+
+void particle::draw()
+{
+	glPointSize(0.1);
+	const int NPOINTS = 8;
+	const float TWOPI = 2 * 3.14159268;
+	const float STEP = TWOPI / NPOINTS;
+	glBegin(GL_POLYGON);
+	for (float angle = 0; angle<TWOPI; angle += STEP)
+		glVertex2f(radius * cos(angle) + position.getX(), radius * sin(angle) + position.getY());
+	glEnd();
 }
 
 particle::~particle()
