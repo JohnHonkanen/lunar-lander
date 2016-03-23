@@ -1,6 +1,10 @@
 #include <cmath>
 #include "vector.h"
 
+vector::vector()
+{
+
+}
 vector::vector(float x, float y)
 {
 	_x = x;

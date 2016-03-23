@@ -2,6 +2,7 @@ class vector
 {
 public:
 	vector(float, float);
+	vector();
 	~vector();
 	void setX(float);
 	void setY(float);
