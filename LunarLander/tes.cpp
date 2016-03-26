@@ -4,33 +4,28 @@
 #include<iostream>
 #include <cmath>
 
-#include "particle.h"
+#include "rocket.h"
 
 float height, width;
-
-particle sun;
-particle planet;
+Rocket player;
 
 void renderScene(void) {
 
 	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(1, 0.5, 0);
-	sun.draw();
-	glColor3f(0, 0, 1);
-	planet.draw();
+	//Render Scene and Draw
+	player.draw();
 	glFlush();
 
-}
+}
+
 
 void idle(int value)
 {
-	planet.gravitateTo(sun);
-	planet.update();
 
-	std::cout << planet.distanceTo(sun) << std::endl;
-	//std::cout << planet.velocity.getX() << "||" << planet.velocity.getY() << std::endl;
-	//  Call display function (draw the current frame)
 	glutTimerFunc(41, idle, 0);
+	//Calculate Physics for Frame
+	player.update();
+	std::cout << player.velocity.getLength() << std::endl;
 	glutPostRedisplay();
 }
 
@@ -44,27 +39,34 @@ void reshape(int x, int y)
 	gluOrtho2D(0, width, 0, height);
 }
 
+void keyDown(unsigned char key, int x, int y)
+{
+	player.controlEvent(key, true);
+}
+
+void keyUp(unsigned char key, int x, int y) {
+	player.controlEvent(key, false);
+}
+
 int main(int argc, char** argv)
 {
-	height = 800;
-	width = 800;
-
-	sun = particle(width / 2, height / 2, 0, 0, 0);
-	planet = particle(width / 2, height/ 2 + 200, 10, -M_PI / 2, 0);
-	sun.mass = 15000;
-	planet.mass = 100;
-	sun.radius = 50;
-	planet.radius = 5;
+	height = 1000;
+	width = 1000;
+	/*Initialize Object Data*/
+	player = Rocket(height / 2, width / 2, 100, 0.1f, 10);
+	/* End of Initialization*/
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
 	//glutInitWindowPosition(100, 100);
 	glutInitWindowSize(width, height);
 	glutCreateWindow("Draw Triangle");
-	glClearColor(1.0, 1.0, 1.0, 1.0);
-	gluOrtho2D(0, width, height, 0);
-	//glutReshapeFunc(reshape);
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+	//gluOrtho2D(0, width, height, 0);
+	glutReshapeFunc(reshape);
 	glutDisplayFunc(renderScene);
+	glutKeyboardFunc(keyDown);
+	glutKeyboardUpFunc(keyUp);
 	glutTimerFunc(41,idle,0);
 	glutMainLoop();
-}
+}

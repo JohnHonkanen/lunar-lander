@@ -150,11 +150,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="particle.cpp" />
+    <ClCompile Include="rocket.cpp" />
     <ClCompile Include="tes.cpp" />
     <ClCompile Include="vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="particle.h" />
+    <ClInclude Include="rocket.h" />
     <ClInclude Include="vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

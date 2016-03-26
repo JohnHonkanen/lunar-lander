@@ -60,7 +60,7 @@ void particle::draw()
 	const float STEP = TWOPI / NPOINTS;
 	glBegin(GL_POLYGON);
 	for (float angle = 0; angle<TWOPI; angle += STEP)
-		glVertex2f(radius * cos(angle) + position.getX(), radius * sin(angle) + position.getY());
+		glVertex2f(radius * cos(angle + rotation) + position.getX(), radius * sin(angle + rotation) + position.getY());
 	glEnd();
 }
 
