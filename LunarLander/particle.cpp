@@ -1,12 +1,10 @@
 #define _USE_MATH_DEFINES
-
-#include <cmath>
-#include <gl/freeglut.h>
 #include "particle.h"
 
 
-
-particle::particle(){}
+particle::particle()
+{
+}
 particle::particle(float x, float y, float speed, float direction, float grav)
 {
 	position = vector(x, y);
@@ -58,6 +56,7 @@ void particle::draw()
 	const int NPOINTS = 8;
 	const float TWOPI = 2 * 3.14159268;
 	const float STEP = TWOPI / NPOINTS;
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glBegin(GL_POLYGON);
 	for (float angle = 0; angle<TWOPI; angle += STEP)
 		glVertex2f(radius * cos(angle + rotation) + position.getX(), radius * sin(angle + rotation) + position.getY());

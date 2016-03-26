@@ -1,11 +1,11 @@
 #pragma once
 #define _USE_MATH_DEFINES
-#include "vector.h"
 #include <cmath>
 #include <gl/freeglut.h>
+#include "particle.h"
 
 
-class Rocket
+class Rocket: public particle
 {
 public:
 	Rocket(float, float, float, float, float);
@@ -23,9 +23,6 @@ public:
 	float acceleration;
 
 	vector thrust = vector();
-	vector position = vector();
-	vector velocity = vector();
-	vector gravity = vector();
 
 private:
 	bool accelerating = false;

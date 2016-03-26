@@ -1,5 +1,4 @@
 #include "rocket.h"
-#include <iostream>
 
 Rocket::Rocket()
 {
@@ -35,6 +34,7 @@ void Rocket::controlEvent(unsigned char k, bool pressed)
 			break;
 		case 'd':
 			turningRight = true;
+			break;
 		case 's':
 			deacclerating = true;
 		default:
@@ -53,6 +53,7 @@ void Rocket::controlEvent(unsigned char k, bool pressed)
 			break;
 		case 'd':
 			turningRight = false;
+			break;
 		case 's':
 			deacclerating = false;
 		default:
@@ -68,14 +69,24 @@ void Rocket::accelerate(vector accel)
 
 void Rocket::draw()
 {
-	glPointSize(0.1);
-	const int NPOINTS = 3;
-	const float TWOPI = 2 * 3.14159268;
-	const float STEP = TWOPI / NPOINTS;
+	float radius = 50;
+	float flameRad = 20;
+	glPointSize(5);
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glBegin(GL_POLYGON);
-	for (float angle = 0; angle < TWOPI; angle += STEP)
-		glVertex2f(50 * cos(angle + facingAngle + M_PI/2) + position.getX(), 50 * sin(angle + facingAngle + M_PI/2) + position.getY());
+	glVertex2f(radius/2 * cos(M_PI * 0.5 + facingAngle) + position.getX(), radius/2 * sin(M_PI * 0.5 + facingAngle) + position.getY());
+	glVertex2f(radius * cos(M_PI * 1.75 + facingAngle) + position.getX(), radius * sin(M_PI * 1.75 + facingAngle) + position.getY());
+	glVertex2f(position.getX(), position.getY());
+	glVertex2f(radius * cos(M_PI * 1.25 + facingAngle) + position.getX(), radius * sin(M_PI * 1.25 + facingAngle) + position.getY());
 	glEnd();
+	if (accelerating)
+	{
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glBegin(GL_POINTS);
+		glVertex2f(flameRad * cos(M_PI * 1.5 + facingAngle) + position.getX(), flameRad * sin(M_PI * 1.5 + facingAngle) + position.getY());
+		glVertex2f(1.3 * flameRad * cos(M_PI * 1.5 + facingAngle) + position.getX(), 1.3 * flameRad * sin(M_PI * 1.5 + facingAngle) + position.getY());
+		glEnd();
+	}
 }
 
 void Rocket::update()
