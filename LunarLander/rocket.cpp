@@ -114,7 +114,6 @@ void Rocket::update()
 		thrust.setLength(0);
 	}
 
-
 	accelerate(thrust);
 	position.addTo(velocity);
 }

@@ -3,6 +3,7 @@
 #include <cmath>
 #include <gl/freeglut.h>
 
+
 class particle
 {
 public:

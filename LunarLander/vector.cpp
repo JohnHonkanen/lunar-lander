@@ -8,11 +8,24 @@ vector::vector(float x, float y)
 {
 	_x = x;
 	_y = y;
+	_z = 0;
+}
+
+vector::vector(float x, float y, float z)
+{
+	_x = x;
+	_y = y;
+	_z = z;
 }
 
 void vector::setX(float x)
 {
 	_x = x;
+}
+
+void vector::setZ(float z)
+{
+	_z = z;
 }
 
 void vector::setY(float y)
@@ -28,6 +41,11 @@ float vector::getX()
 float vector::getY()
 {
 	return _y;
+}
+
+float vector::getZ()
+{
+	return _z;
 }
 
 float vector::getLength()
@@ -52,6 +70,24 @@ void vector::setAngle(float angle)
 	float length = getLength();
 	_x = sin(angle) * length;
 	_y = cos(angle) * length;
+}
+
+vector vector::normalize()
+{
+	float length = getLength();
+	float x = _x / length;
+	float y = _y / length;
+
+	return vector(x, y);
+}
+
+vector vector::cross(vector v2)
+{
+	float x = _y*v2.getZ() - _z*v2.getY();
+	float y = _z*v2.getX() - _x*v2.getZ();
+	float z = _x*v2.getY() - _y*v2.getX();
+
+	return vector(x, y, z);
 }
 
 vector vector::add(vector v2)

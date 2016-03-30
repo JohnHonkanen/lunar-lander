@@ -4,6 +4,7 @@ class vector
 {
 public:
 	vector(float, float);
+	vector(float, float, float);
 	vector();
 	~vector();
 	void setX(float);
@@ -11,11 +12,17 @@ public:
 	float getX();
 	float getY();
 
+	void setZ(float);
+	float getZ();
+
 	void setAngle(float);
 	float getAngle();
 
 	float getLength();
 	void setLength(float);
+
+	vector normalize();
+	vector cross(vector);
 
 	vector add(vector);
 	vector subtract(vector);
@@ -28,5 +35,5 @@ public:
 	void divideBy(float);
 
 private:
-	float _x, _y;
+	float _x, _y, _z;
 };
