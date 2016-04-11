@@ -121,3 +121,16 @@ void Rocket::updatePosition()
 {
 	position.addTo(velocity);
 }
+
+void Rocket::update()
+{
+	updateVelocity();
+	updatePosition();
+}
+
+void Rocket::update(particle p)
+{
+	updateVelocity();
+	collision(p);
+	updatePosition();
+}

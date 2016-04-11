@@ -11,24 +11,29 @@ public:
 	particle(float x, float y, float speed, float direction, float grav);
 	~particle();
 
-	void accelerate(vector);
-	float angleTo(particle);
-	float distanceTo(particle);
-	void gravitateTo(particle);
-	bool checkCollision(particle);
-	void collision(particle);
-	vector calculateCollisionPoint(particle);
 	virtual void update();
 	virtual void draw();
 
-	float mass = 1;
+	void gravitateTo(particle);
+	void collision(particle);
+
 	float radius = 0;
-	float bounce = -1;
-	float rotation = 0;
+	float mass = 1;
 
 	vector position;
+
+protected:
+
 	vector velocity;
 	vector gravity;
 
 private:
+	void accelerate(vector);
+	float angleTo(particle);
+	float distanceTo(particle);
+	bool checkCollision(particle);
+	vector calculateCollisionPoint(particle);
+
+	float rotation = 0;
+
 };

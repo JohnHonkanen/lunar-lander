@@ -24,21 +24,6 @@ void renderScene(void) {
 	//Render Scene and Draw
 	player.draw();
 	moon.draw();
-
-	glBegin(GL_LINE_LOOP);
-	glColor3f(1.0f, 1.0f, 0.0f);
-	glVertex2f(player.position.getX(), player.position.getY());
-	glVertex2f(moon.position.getX(), moon.position.getY());
-	glEnd();
-
-	vector intersectPoint = player.calculateCollisionPoint(moon);
-	glColor3f(1.0f, 0.5f, 0.0f);
-	glPointSize(10);
-	glBegin(GL_POINTS);
-	glVertex2f(intersectPoint.getX(),intersectPoint.getY());
-	glEnd();
-
-
 	//End of Render Scene
 	glutSwapBuffers();
 
@@ -51,9 +36,7 @@ void idle(int value)
 	glutTimerFunc(41, idle, 0);
 	/* Calculate Physics for Frame */
 	player.gravitateTo(moon);
-	player.updateVelocity();
-	player.collision(moon);
-	player.updatePosition();
+	player.update(moon);
 	/* End of Calculation */
 	glutPostRedisplay();
 }

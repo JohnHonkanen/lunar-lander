@@ -14,18 +14,20 @@ public:
 
 	void controlEvent(unsigned char, bool);
 	void draw();
+	void update();
+	void update(particle);
+
+private:
+
+	void accelerate(vector);
 	void updateVelocity();
 	void updatePosition();
-	void accelerate(vector);
 
+	vector thrust = vector();
 	float fuel;
 	float maxSpeed;
 	float facingAngle;
 	float acceleration;
-
-	vector thrust = vector();
-
-private:
 	bool accelerating = false;
 	bool turningLeft = false;
 	bool turningRight = false;
