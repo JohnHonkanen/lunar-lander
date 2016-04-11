@@ -65,7 +65,7 @@ void particle::draw()
 
 bool particle::checkCollision(particle col)
 {
-	float colDist = col.radius + radius;
+	float colDist = col.colRadius + colRadius;
 	float dist = position.distance(col.position);
 
 	if (colDist > dist)
@@ -74,8 +74,8 @@ bool particle::checkCollision(particle col)
 }
 vector particle::calculateCollisionPoint(particle col)
 {
-	float collisionX = ((position.getX() * col.radius) + (col.position.getX() * radius))/ (radius + col.radius);
-	float collisionY = ((position.getY() * col.radius) + (col.position.getY() * radius)) / (radius + col.radius);
+	float collisionX = ((position.getX() * col.colRadius) + (col.position.getX() * colRadius))/ (colRadius + col.colRadius);
+	float collisionY = ((position.getY() * col.colRadius) + (col.position.getY() * colRadius)) / (colRadius + col.colRadius);
 
 	vector collisionPoint = vector(collisionX, collisionY);
 

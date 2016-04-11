@@ -68,6 +68,7 @@ int main(int argc, char** argv)
 	player = Rocket(width/2, height, 100, 0.1f, 10);
 	moon = particle(width/2,height/2, 0,  0, 0);
 	moon.radius = 300;
+	moon.colRadius = 300;
 	moon.mass = 10000;
 
 	//End of Initialization

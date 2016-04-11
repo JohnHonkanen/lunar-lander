@@ -18,6 +18,7 @@ public:
 	void collision(particle);
 
 	float radius = 0;
+	float colRadius = 0;
 	float mass = 1;
 
 	vector position;

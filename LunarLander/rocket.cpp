@@ -14,6 +14,8 @@ Rocket::Rocket(float x, float y, float f, float a, float ms)
 	maxSpeed = ms;
 	facingAngle = 0;
 	accelerating = false;
+	radius = 25;
+	colRadius = 15;
 }
 
 Rocket::~Rocket()
@@ -69,7 +71,6 @@ void Rocket::accelerate(vector accel)
 
 void Rocket::draw()
 {
-	radius = 25;
 	float flameRad = 20;
 	glPointSize(5);
 	glColor3f(1.0f, 1.0f, 1.0f);
