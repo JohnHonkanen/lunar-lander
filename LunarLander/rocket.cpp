@@ -69,12 +69,12 @@ void Rocket::accelerate(vector accel)
 
 void Rocket::draw()
 {
-	float radius = 50;
+	radius = 25;
 	float flameRad = 20;
 	glPointSize(5);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glBegin(GL_POLYGON);
-	glVertex2f(radius/2 * cos(M_PI * 0.5 + facingAngle) + position.getX(), radius/2 * sin(M_PI * 0.5 + facingAngle) + position.getY());
+	glVertex2f(radius * cos(M_PI * 0.5 + facingAngle) + position.getX(), radius * sin(M_PI * 0.5 + facingAngle) + position.getY());
 	glVertex2f(radius * cos(M_PI * 1.75 + facingAngle) + position.getX(), radius * sin(M_PI * 1.75 + facingAngle) + position.getY());
 	glVertex2f(position.getX(), position.getY());
 	glVertex2f(radius * cos(M_PI * 1.25 + facingAngle) + position.getX(), radius * sin(M_PI * 1.25 + facingAngle) + position.getY());
@@ -89,7 +89,7 @@ void Rocket::draw()
 	}
 }
 
-void Rocket::update()
+void Rocket::updateVelocity()
 {
 	if (turningLeft) {
 		facingAngle += 0.05;
@@ -115,5 +115,9 @@ void Rocket::update()
 	}
 
 	accelerate(thrust);
+}
+
+void Rocket::updatePosition()
+{
 	position.addTo(velocity);
 }

@@ -24,6 +24,21 @@ void renderScene(void) {
 	//Render Scene and Draw
 	player.draw();
 	moon.draw();
+
+	glBegin(GL_LINE_LOOP);
+	glColor3f(1.0f, 1.0f, 0.0f);
+	glVertex2f(player.position.getX(), player.position.getY());
+	glVertex2f(moon.position.getX(), moon.position.getY());
+	glEnd();
+
+	vector intersectPoint = player.calculateCollisionPoint(moon);
+	glColor3f(1.0f, 0.5f, 0.0f);
+	glPointSize(10);
+	glBegin(GL_POINTS);
+	glVertex2f(intersectPoint.getX(),intersectPoint.getY());
+	glEnd();
+
+
 	//End of Render Scene
 	glutSwapBuffers();
 
@@ -36,8 +51,9 @@ void idle(int value)
 	glutTimerFunc(41, idle, 0);
 	/* Calculate Physics for Frame */
 	player.gravitateTo(moon);
-	player.update();
-	std::cout << player.position.getX() << "||" << player.position.getY() << std::endl;
+	player.updateVelocity();
+	player.collision(moon);
+	player.updatePosition();
 	/* End of Calculation */
 	glutPostRedisplay();
 }
@@ -68,8 +84,8 @@ int main(int argc, char** argv)
 	//Initialize Object Data
 	player = Rocket(width/2, height, 100, 0.1f, 10);
 	moon = particle(width/2,height/2, 0,  0, 0);
-	moon.radius = 100;
-	moon.mass = 15000;
+	moon.radius = 300;
+	moon.mass = 10000;
 
 	//End of Initialization
 

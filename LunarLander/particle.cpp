@@ -1,6 +1,6 @@
 #define _USE_MATH_DEFINES
 #include "particle.h"
-
+#include<iostream>
 
 particle::particle()
 {
@@ -53,7 +53,7 @@ void particle::gravitateTo(particle p2)
 void particle::draw()
 {
 	glPointSize(0.1);
-	const int NPOINTS = 8;
+	const int NPOINTS = 30;
 	const float TWOPI = 2 * 3.14159268;
 	const float STEP = TWOPI / NPOINTS;
 	glColor3f(1.0f, 1.0f, 1.0f);
@@ -61,6 +61,56 @@ void particle::draw()
 	for (float angle = 0; angle<TWOPI; angle += STEP)
 		glVertex2f(radius * cos(angle + rotation) + position.getX(), radius * sin(angle + rotation) + position.getY());
 	glEnd();
+}
+
+bool particle::checkCollision(particle col)
+{
+	float colDist = col.radius + radius;
+	float dist = position.distance(col.position);
+
+	if (colDist > dist)
+		return true;
+	return false;
+}
+vector particle::calculateCollisionPoint(particle col)
+{
+	float collisionX = ((position.getX() * col.radius) + (col.position.getX() * radius))/ (radius + col.radius);
+	float collisionY = ((position.getY() * col.radius) + (col.position.getY() * radius)) / (radius + col.radius);
+
+	vector collisionPoint = vector(collisionX, collisionY);
+
+	return collisionPoint;
+}
+
+void particle::collision(particle col)
+{
+	vector collisionPoint = calculateCollisionPoint(col);
+	std::cout << "Velocity " << velocity.getX() << "||" << velocity.getY() << std::endl;
+	
+	if (checkCollision(col))
+	{
+		if (collisionPoint.getX() > position.getX())
+		{
+			if (velocity.getX() > 0)
+				velocity.setX(0);
+		}
+		else if (collisionPoint.getX() < position.getX())
+		{
+			if (velocity.getX() < 0)
+				velocity.setX(0);
+		}
+
+		if (collisionPoint.getY() < position.getY())
+		{
+			if (velocity.getY() < 0)
+				velocity.setY(0);
+		}
+		else if (collisionPoint.getY() > position.getY())
+		{
+			if (velocity.getY() > 0)
+				velocity.setY(0);
+		}
+	}
 }
 
 particle::~particle()

@@ -15,6 +15,9 @@ public:
 	float angleTo(particle);
 	float distanceTo(particle);
 	void gravitateTo(particle);
+	bool checkCollision(particle);
+	void collision(particle);
+	vector calculateCollisionPoint(particle);
 	virtual void update();
 	virtual void draw();
 

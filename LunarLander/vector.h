@@ -34,6 +34,8 @@ public:
 	void multiplyBy(float);
 	void divideBy(float);
 
+	float distance(vector v2);
+
 private:
 	float _x, _y, _z;
 };

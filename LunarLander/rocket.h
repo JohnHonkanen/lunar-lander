@@ -14,7 +14,8 @@ public:
 
 	void controlEvent(unsigned char, bool);
 	void draw();
-	void update();
+	void updateVelocity();
+	void updatePosition();
 	void accelerate(vector);
 
 	float fuel;

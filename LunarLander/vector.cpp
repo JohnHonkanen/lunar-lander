@@ -134,6 +134,14 @@ void vector::divideBy(float val)
 	_y /= val;
 }
 
+float vector::distance(vector v2)
+{
+	float dx = getX() - v2.getX();
+	float dy = getY() - v2.getY();
+
+	return abs(sqrt(dx*dx + dy*dy));
+}
+
 vector::~vector()
 {
 }
