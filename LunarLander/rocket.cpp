@@ -64,11 +64,6 @@ void Rocket::controlEvent(unsigned char k, bool pressed)
 	}
 }
 
-void Rocket::accelerate(vector accel)
-{
-	velocity.addTo(accel);
-}
-
 void Rocket::draw()
 {
 	float flameRad = 20;
@@ -90,6 +85,10 @@ void Rocket::draw()
 	}
 }
 
+void Rocket::accelerate(vector accel)
+{
+	velocity.addTo(accel);
+}
 void Rocket::updateVelocity()
 {
 	if (turningLeft) {
@@ -131,7 +130,5 @@ void Rocket::update()
 
 void Rocket::update(particle p)
 {
-	updateVelocity();
 	collision(p);
-	updatePosition();
 }

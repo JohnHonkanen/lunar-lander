@@ -3,14 +3,26 @@
 #include<gl/freeglut.h>
 #include<iostream>
 #include <cmath>
+#include <time.h>
 
 #include "rocket.h"
+#include "stars.h"
+#include "moon.h"
+#include "helperFunctions.h"
 
 
 float height, width;
 
 Rocket player;
-particle moon;
+const int numMoons = 10;
+Moon moons[numMoons];
+vector moonLocation[numMoons];
+
+const int numStars = 10000;
+Star * star[numStars];
+
+int seed;
+int moonLand;
 
 void renderScene(void) {
 
@@ -22,8 +34,16 @@ void renderScene(void) {
 		player.position.getX()+width/2, player.position.getY() - height/2,10,
 		0,1,0);
 	//Render Scene and Draw
+	for (int i = 0; i < numStars; i++)
+	{
+		star[i]->draw();
+	}
+	for (int i = 0; i < numMoons; i++)
+	{
+		moons[i].draw();
+	}
+	
 	player.draw();
-	moon.draw();
 	//End of Render Scene
 	glutSwapBuffers();
 
@@ -35,8 +55,16 @@ void idle(int value)
 
 	glutTimerFunc(41, idle, 0);
 	/* Calculate Physics for Frame */
-	player.gravitateTo(moon);
-	player.update(moon);
+	for (int i = 0; i < numStars; i++)
+	{
+		star[i]->update();
+	}
+	for (int i = 0; i < numMoons; i++)
+	{
+		player.gravitateTo(moons[i]);
+		player.update(moons[i]);
+	}
+	player.update();
 	/* End of Calculation */
 	glutPostRedisplay();
 }
@@ -66,11 +94,33 @@ int main(int argc, char** argv)
 	width = 1000;
 	//Initialize Object Data
 	player = Rocket(width/2, height, 100, 0.1f, 10);
-	moon = particle(width/2,height/2, 0,  0, 0);
-	moon.radius = 300;
-	moon.colRadius = 300;
-	moon.mass = 10000;
+	moonLand = random(0, numMoons-1);
+	seed = random(-123456, 123456);
+	int sizeOfMoonLoc = -1;
+	srand(time(NULL));
+	for (int i = 0; i < numMoons; i++)
+	{
+		sizeOfMoonLoc++;
+		moonLocation[i] = vector(random(-width * 4, width * 4), random(-height * 4, height * 4));
+		float moonRadius = random(300, 1000);
+		moons[i] = Moon(moonLocation[i], moonRadius, 0, 0, 0, 60);
 
+		for (int z = 0; z < sizeOfMoonLoc; z++)
+		{
+			if (z != i)
+			{
+				while (moons[i].checkCollision(moons[z]))
+				{
+					moonLocation[i] = vector(random(-width * 4, width * 4), random(-height * 4, height * 4));
+					moons[i] = Moon(moonLocation[i], moonRadius, 0, 0, 0, round(moonRadius / 10));
+				}
+			}
+		}
+	}
+	for (int i = 0; i < numStars; i++)
+	{
+		star[i] = new Star(vector(random(-width*8,width*8), random(-height*8,height*8)), vector(0.8f, 0.8f, 0.0f), random(3, 15), random(0,100));
+	}
 	//End of Initialization
 
 	glutInit(&argc, argv);
@@ -78,7 +128,9 @@ int main(int argc, char** argv)
 	//glutInitWindowPosition(100, 100);
 	glutInitWindowSize(width, height);
 	glutCreateWindow("Draw Triangle");
-	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glClearColor(0.05, 0.05, 0.05, 0.0);
 	//gluOrtho2D(0, width, height, 0);
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(renderScene);

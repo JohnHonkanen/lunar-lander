@@ -12,6 +12,7 @@ particle::particle(float x, float y, float speed, float direction, float grav)
 	velocity.setLength(speed);
 	velocity.setAngle(direction);
 	gravity = vector(0, grav || 0);
+	color = vector(0.5f, 0.5f, 0.5f);
 }
 
 void particle::accelerate(vector accel)
@@ -46,7 +47,7 @@ void particle::gravitateTo(particle p2)
 	grav.setLength(p2.mass / (dist * dist));
 	grav.setAngle(angleTo(p2));
 
-	velocity.addTo(grav);
+	velocity.addTo(grav); 
 
 }
 
@@ -56,7 +57,7 @@ void particle::draw()
 	const int NPOINTS = 30;
 	const float TWOPI = 2 * 3.14159268;
 	const float STEP = TWOPI / NPOINTS;
-	glColor3f(1.0f, 1.0f, 1.0f);
+	glColor3f(color.getX(), color.getY(), color.getZ());
 	glBegin(GL_POLYGON);
 	for (float angle = 0; angle<TWOPI; angle += STEP)
 		glVertex2f(radius * cos(angle + rotation) + position.getX(), radius * sin(angle + rotation) + position.getY());
@@ -85,7 +86,6 @@ vector particle::calculateCollisionPoint(particle col)
 void particle::collision(particle col)
 {
 	vector collisionPoint = calculateCollisionPoint(col);
-	std::cout << "Velocity " << velocity.getX() << "||" << velocity.getY() << std::endl;
 	
 	if (checkCollision(col))
 	{
@@ -111,6 +111,11 @@ void particle::collision(particle col)
 				velocity.setY(0);
 		}
 	}
+}
+
+void particle::setColor(vector color)
+{
+	this->color = color;
 }
 
 particle::~particle()

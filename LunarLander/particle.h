@@ -2,6 +2,7 @@
 #include "vector.h"
 #include <cmath>
 #include <gl/freeglut.h>
+#include <iostream>
 
 
 class particle
@@ -16,6 +17,8 @@ public:
 
 	void gravitateTo(particle);
 	void collision(particle);
+	bool checkCollision(particle);
+	void setColor(vector color3D);
 
 	float radius = 0;
 	float colRadius = 0;
@@ -24,16 +27,17 @@ public:
 	vector position;
 
 protected:
+	virtual void accelerate(vector);
+
+	float angleTo(particle);
+	float distanceTo(particle);
+	vector calculateCollisionPoint(particle);
 
 	vector velocity;
 	vector gravity;
+	vector color;
 
 private:
-	void accelerate(vector);
-	float angleTo(particle);
-	float distanceTo(particle);
-	bool checkCollision(particle);
-	vector calculateCollisionPoint(particle);
 
 	float rotation = 0;
 
