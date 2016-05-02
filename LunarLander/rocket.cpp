@@ -16,6 +16,7 @@ Rocket::Rocket(float x, float y, float f, float a, float ms)
 	accelerating = false;
 	radius = 25;
 	colRadius = 15;
+	locked = false;
 }
 
 Rocket::~Rocket()
@@ -84,7 +85,7 @@ void Rocket::draw()
 	glVertex2f(position.getX(), position.getY());
 	glVertex2f(radius * cos(M_PI * 1.25 + facingAngle) + position.getX(), radius * sin(M_PI * 1.25 + facingAngle) + position.getY());
 	glEnd();
-	if (accelerating)
+	if (accelerating && !locked)
 	{
 		glColor3f(1.0f, 0.0f, 0.0f);
 		glBegin(GL_POINTS);
@@ -138,7 +139,7 @@ void Rocket::updateVelocity()
 		else if (deacclerating)
 		{
 			fuel -= 0.1;
-			thrust.setLength(-acceleration * 2);
+			thrust.setLength(-acceleration);
 
 		}
 		else
@@ -166,8 +167,11 @@ void Rocket::updatePosition()
 
 void Rocket::update()
 {
-	updateVelocity();
-	updatePosition();
+	if (!locked)
+	{
+		updateVelocity();
+		updatePosition();
+	}
 }
 
 void Rocket::update(particle p)

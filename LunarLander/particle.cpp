@@ -47,7 +47,8 @@ void particle::gravitateTo(particle p2)
 	grav.setLength(p2.mass / (dist * dist));
 	grav.setAngle(angleTo(p2));
 
-	velocity.addTo(grav); 
+	if(!locked)
+		velocity.addTo(grav); 
 
 }
 

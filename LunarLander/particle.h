@@ -37,6 +37,8 @@ protected:
 	vector gravity;
 	vector color;
 
+	bool locked = true;
+
 private:
 
 	float rotation = 0;
