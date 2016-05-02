@@ -14,6 +14,6 @@ public:
 	void draw();
 
 private:
-	int numVertices;
-	vector *vertices;
+	int numVertices; //Number of Vertices for our Moon
+	vector *vertices; //Storage of Vertices Position
 };

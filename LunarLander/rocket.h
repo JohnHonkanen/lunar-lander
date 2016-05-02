@@ -13,11 +13,11 @@ public:
 	~Rocket();
 
 	void controlEvent(unsigned char, bool);
-	void draw();
-	void drawPointer();
-	void update();
-	void update(particle);
-	void updatePointer(particle);
+	void draw(); // Draw our Rocket
+	void drawPointer(); //Draw our Arrow
+	void update(); //Update our Position
+	void update(particle); //Update our Collision
+	void updatePointer(particle); //Find Angle to Particle
 
 private:
 

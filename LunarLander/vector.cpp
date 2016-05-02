@@ -52,7 +52,7 @@ float vector::getLength()
 {
 	return sqrt(_x * _x + _y * _y);
 }
-
+//Magnituder or Length of our Vector
 void vector::setLength(float length)
 {
 	float angle = getAngle();
@@ -80,7 +80,7 @@ vector vector::normalize()
 
 	return vector(x, y);
 }
-
+//Cross Product of Vector
 vector vector::cross(vector v2)
 {
 	float x = _y*v2.getZ() - _z*v2.getY();

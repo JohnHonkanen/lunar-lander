@@ -22,7 +22,7 @@ Rocket::Rocket(float x, float y, float f, float a, float ms)
 Rocket::~Rocket()
 {
 }
-
+//Keyboard Event
 void Rocket::controlEvent(unsigned char k, bool pressed)
 {
 	if (pressed)
@@ -73,7 +73,7 @@ void Rocket::controlEvent(unsigned char k, bool pressed)
 		}
 	}
 }
-
+//Drawing our Rocket and Flame Thrusters
 void Rocket::draw()
 {
 	float flameRad = 20;
@@ -94,7 +94,7 @@ void Rocket::draw()
 		glEnd();
 	}
 }
-
+//Drawing our Arrow Indicator
 void Rocket::drawPointer()
 {
 	float pointerRadius = radius + 10;
@@ -106,7 +106,7 @@ void Rocket::drawPointer()
 
 	glEnd();
 }
-
+//Pointing our Arrow Indicator the particle
 void Rocket::updatePointer(particle p)
 {
 	float angle = angleTo(p);
@@ -117,6 +117,7 @@ void Rocket::accelerate(vector accel)
 {
 	velocity.addTo(accel);
 }
+//Updating our Rocket's Velocity Via Input from Control Event
 void Rocket::updateVelocity()
 {
 	if (turningLeft) {
@@ -145,6 +146,7 @@ void Rocket::updateVelocity()
 		else
 		{
 			thrust.setLength(0);
+			//Dampeners System
 			if (dampeners)
 			{
 				fuel -= 0.5;
@@ -156,15 +158,14 @@ void Rocket::updateVelocity()
 		}
 
 	}
-	std::cout << velocity.getLength() << "||" << fuel << std::endl;
 	accelerate(thrust);
 }
-
+//Update our Position
 void Rocket::updatePosition()
 {
 	position.addTo(velocity);
 }
-
+//Update Position based on Velocity
 void Rocket::update()
 {
 	if (!locked)
@@ -173,7 +174,7 @@ void Rocket::update()
 		updatePosition();
 	}
 }
-
+//Update Our Check for Collision
 void Rocket::update(particle p)
 {
 	collision(p);

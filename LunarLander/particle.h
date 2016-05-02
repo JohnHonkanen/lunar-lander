@@ -12,32 +12,32 @@ public:
 	particle(float x, float y, float speed, float direction, float grav);
 	~particle();
 
-	virtual void update();
-	virtual void draw();
+	virtual void update(); //Physics Calculation
+	virtual void draw(); //Draw our Particle to screen
 
 	void gravitateTo(particle);
-	void collision(particle);
-	bool checkCollision(particle);
-	void setColor(vector color3D);
+	void collision(particle); //Add Collision to our Particle
+	bool checkCollision(particle); //Check if Colliding
+	void setColor(vector color3D); //Set our Color using a 3D vector
 
 	float radius = 0;
-	float colRadius = 0;
-	float mass = 1;
+	float colRadius = 0; //Collision Radius
+	float mass = 1; // Mass for our Gravitational Pull Calculation
 
-	vector position;
+	vector position; //Position on Screen
 
 protected:
 	virtual void accelerate(vector);
 
 	float angleTo(particle);
 	float distanceTo(particle);
-	vector calculateCollisionPoint(particle);
+	vector calculateCollisionPoint(particle); //Find our point of collision
 
 	vector velocity;
 	vector gravity;
 	vector color;
 
-	bool locked = true;
+	bool locked = true; //Set our Particle to not be affected by physics.
 
 private:
 

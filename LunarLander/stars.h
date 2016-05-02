@@ -15,6 +15,6 @@ public:
 	void draw();
 
 private:
-	float glowAlphaSin;
-	float glowAlpha;
+	float glowAlphaSin; //Angle Value for our Glowing Stars
+	float glowAlpha; // Transparency for our Star
 };

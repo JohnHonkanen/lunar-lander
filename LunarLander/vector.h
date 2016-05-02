@@ -19,10 +19,10 @@ public:
 	float getAngle();
 
 	float getLength();
-	void setLength(float);
+	void setLength(float); //Magnitude of a Vector
 
 	vector normalize();
-	vector cross(vector);
+	vector cross(vector); //Cross Product of 2 Vectors
 
 	vector add(vector);
 	vector subtract(vector);

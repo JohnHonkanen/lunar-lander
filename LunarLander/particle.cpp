@@ -38,7 +38,7 @@ float particle::distanceTo(particle p2)
 
 	return sqrt(dx*dx + dy*dy);
 }
-
+//Gravitational Pull towards Particle
 void particle::gravitateTo(particle p2)
 {
 	vector grav = vector(0, 0);
@@ -64,7 +64,7 @@ void particle::draw()
 		glVertex2f(radius * cos(angle + rotation) + position.getX(), radius * sin(angle + rotation) + position.getY());
 	glEnd();
 }
-
+//Check if Colliding
 bool particle::checkCollision(particle col)
 {
 	float colDist = col.colRadius + colRadius;
@@ -74,6 +74,7 @@ bool particle::checkCollision(particle col)
 		return true;
 	return false;
 }
+//Find out where our Collision Point is
 vector particle::calculateCollisionPoint(particle col)
 {
 	float collisionX = ((position.getX() * col.colRadius) + (col.position.getX() * colRadius))/ (colRadius + col.colRadius);
@@ -84,6 +85,7 @@ vector particle::calculateCollisionPoint(particle col)
 	return collisionPoint;
 }
 
+//Check our Collision and Apply proper Constraints
 void particle::collision(particle col)
 {
 	vector collisionPoint = calculateCollisionPoint(col);
@@ -113,7 +115,7 @@ void particle::collision(particle col)
 		}
 	}
 }
-
+//Set Color of our Particle
 void particle::setColor(vector color)
 {
 	this->color = color;

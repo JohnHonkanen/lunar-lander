@@ -16,7 +16,7 @@ Moon::Moon(vector pos, float r, float speed, float direction, float grav, int nu
 	velocity.setLength(speed);
 	velocity.setAngle(direction);
 	gravity = vector(0, grav || 0);
-	color = vector(0.5f, 0.5f, 0.5f);
+	color = vector(0.5f, 0.5f, 0.5f); //Setting the Base Color of our Moon
 	numVertices = numVerts;
 	vertices = new vector[numVertices+1];
 	radius = r;
@@ -27,6 +27,7 @@ Moon::Moon(vector pos, float r, float speed, float direction, float grav, int nu
 	const float TWOPI = 2 * M_PI;
 	const float STEP = TWOPI / NPOINTS;
 	int i = 0;
+	//Storing our Vertice Information
 	for (float angle = 0; angle<TWOPI; angle += STEP)
 	{
 		float randRadius = randR(radius - 20, radius + 20);
