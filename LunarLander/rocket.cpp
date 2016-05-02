@@ -39,6 +39,15 @@ void Rocket::controlEvent(unsigned char k, bool pressed)
 			break;
 		case 's':
 			deacclerating = true;
+		case 'e':
+			if (!dampeners)
+			{
+				dampeners = true;
+			}
+			else
+			{
+				dampeners = false;
+			}
 		default:
 			break;
 		}
@@ -85,6 +94,24 @@ void Rocket::draw()
 	}
 }
 
+void Rocket::drawPointer()
+{
+	float pointerRadius = radius + 10;
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glBegin(GL_POLYGON);
+	glVertex2f(radius * cos(M_PI + angleToTarget - 0.3) + position.getX(), radius * sin(M_PI + angleToTarget - 0.3) + position.getY());
+	glVertex2f(pointerRadius * cos(M_PI+angleToTarget) + position.getX(), pointerRadius * sin(M_PI+angleToTarget) + position.getY());
+	glVertex2f(radius * cos(M_PI + angleToTarget + 0.3) + position.getX(), radius * sin(M_PI + angleToTarget + 0.3) + position.getY());
+
+	glEnd();
+}
+
+void Rocket::updatePointer(particle p)
+{
+	float angle = angleTo(p);
+	angleToTarget = -angle -M_PI/2;
+}
+
 void Rocket::accelerate(vector accel)
 {
 	velocity.addTo(accel);
@@ -101,19 +128,34 @@ void Rocket::updateVelocity()
 
 	thrust.setAngle(-facingAngle);
 
-	if (accelerating)
+	if (fuel > 0)
 	{
-		thrust.setLength(acceleration);
-	}
-	else if (deacclerating)
-	{
-			thrust.setLength(-acceleration/2);
-	}
-	else
-	{
-		thrust.setLength(0);
-	}
+		if (accelerating)
+		{
+			fuel -= 0.1;
+			thrust.setLength(acceleration);
+		}
+		else if (deacclerating)
+		{
+			fuel -= 0.1;
+			thrust.setLength(-acceleration * 2);
 
+		}
+		else
+		{
+			thrust.setLength(0);
+			if (dampeners)
+			{
+				fuel -= 0.5;
+				if (velocity.getLength() < 2)
+					velocity.setLength(0);
+				else
+					velocity.setLength(velocity.getLength() - acceleration);
+			}
+		}
+
+	}
+	std::cout << velocity.getLength() << "||" << fuel << std::endl;
 	accelerate(thrust);
 }
 

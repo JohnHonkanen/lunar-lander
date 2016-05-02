@@ -14,8 +14,10 @@ public:
 
 	void controlEvent(unsigned char, bool);
 	void draw();
+	void drawPointer();
 	void update();
 	void update(particle);
+	void updatePointer(particle);
 
 private:
 
@@ -32,4 +34,6 @@ private:
 	bool turningLeft = false;
 	bool turningRight = false;
 	bool deacclerating = false;
+	bool dampeners = false;
+	float angleToTarget = 0;
 };

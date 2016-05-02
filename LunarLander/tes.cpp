@@ -33,6 +33,7 @@ void renderScene(void) {
 	gluLookAt(player.position.getX()+width/2, player.position.getY()-height/2, 0,
 		player.position.getX()+width/2, player.position.getY() - height/2,10,
 		0,1,0);
+
 	//Render Scene and Draw
 	for (int i = 0; i < numStars; i++)
 	{
@@ -44,6 +45,7 @@ void renderScene(void) {
 	}
 	
 	player.draw();
+	player.drawPointer();
 	//End of Render Scene
 	glutSwapBuffers();
 
@@ -65,6 +67,7 @@ void idle(int value)
 		player.update(moons[i]);
 	}
 	player.update();
+	player.updatePointer(moons[moonLand]);
 	/* End of Calculation */
 	glutPostRedisplay();
 }
@@ -93,7 +96,7 @@ int main(int argc, char** argv)
 	height = 1000;
 	width = 1000;
 	//Initialize Object Data
-	player = Rocket(width/2, height, 100, 0.1f, 10);
+	player = Rocket(width * 5, height * 5, 100, 0.1f, 10);
 	moonLand = random(0, numMoons-1);
 	seed = random(-123456, 123456);
 	int sizeOfMoonLoc = -1;
@@ -102,7 +105,7 @@ int main(int argc, char** argv)
 	{
 		sizeOfMoonLoc++;
 		moonLocation[i] = vector(random(-width * 4, width * 4), random(-height * 4, height * 4));
-		float moonRadius = random(300, 1000);
+		float moonRadius = random(300, 500);
 		moons[i] = Moon(moonLocation[i], moonRadius, 0, 0, 0, 60);
 
 		for (int z = 0; z < sizeOfMoonLoc; z++)
