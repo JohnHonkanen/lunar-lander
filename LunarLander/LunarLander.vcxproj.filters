@@ -36,6 +36,9 @@
     <ClCompile Include="moon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tank.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rocket.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="helperFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tank.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

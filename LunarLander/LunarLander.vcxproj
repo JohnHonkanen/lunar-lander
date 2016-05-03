@@ -153,6 +153,7 @@
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="rocket.cpp" />
     <ClCompile Include="stars.cpp" />
+    <ClCompile Include="tank.cpp" />
     <ClCompile Include="tes.cpp" />
     <ClCompile Include="vector.cpp" />
   </ItemGroup>
@@ -162,6 +163,7 @@
     <ClInclude Include="particle.h" />
     <ClInclude Include="rocket.h" />
     <ClInclude Include="stars.h" />
+    <ClInclude Include="tank.h" />
     <ClInclude Include="vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

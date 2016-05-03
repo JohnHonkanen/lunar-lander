@@ -3,6 +3,7 @@
 #include <cmath>
 #include <gl/freeglut.h>
 #include "particle.h"
+#include "tank.h"
 
 
 class Rocket: public particle
@@ -18,6 +19,7 @@ public:
 	void update(); //Update our Position
 	void update(particle); //Update our Collision
 	void updatePointer(particle); //Find Angle to Particle
+	void follow(tank);
 
 private:
 

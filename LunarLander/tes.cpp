@@ -5,6 +5,7 @@
 #include <cmath>
 #include <time.h>
 
+#include "tank.h"
 #include "rocket.h"
 #include "stars.h"
 #include "moon.h"
@@ -24,7 +25,9 @@ Star * star[numStars];
 int seed;
 int moonLand;
 
-void renderScene(void) {
+tank artillery;
+
+void renderScene() {
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	//Camera Follow
@@ -44,8 +47,14 @@ void renderScene(void) {
 		moons[i].draw();
 	}
 	
-	player.draw();
-	player.drawPointer();
+	// Draw Tank Components
+	artillery.draw();
+
+	// The actual rocket
+	//player.draw();
+	//player.drawPointer();
+	
+	
 	//End of Render Scene
 	glutSwapBuffers();
 
@@ -68,6 +77,9 @@ void idle(int value)
 	}
 	player.update();
 	player.updatePointer(moons[moonLand]);
+	artillery.updateTank();
+	player.follow(artillery);
+
 	/* End of Calculation */
 	glutPostRedisplay();
 }
@@ -85,10 +97,12 @@ void reshape(int x, int y)
 void keyDown(unsigned char key, int x, int y)
 {
 	player.controlEvent(key, true);
+	artillery.controlEvent(key, true);
 }
 
 void keyUp(unsigned char key, int x, int y) {
 	player.controlEvent(key, false);
+	artillery.controlEvent(key, false);
 }
 
 int main(int argc, char** argv)
@@ -124,13 +138,18 @@ int main(int argc, char** argv)
 	{
 		star[i] = new Star(vector(random(-width*8,width*8), random(-height*8,height*8)), vector(0.8f, 0.8f, 0.0f), random(3, 15), random(0,100));
 	}
+
+	// Initialize Tank
+	float randomAngle = (float) random(0, 200) / 10;
+	artillery = tank(player.position.getX(), player.position.getY(), 1500, 100, randomAngle);
+	
 	//End of Initialization
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	//glutInitWindowPosition(100, 100);
 	glutInitWindowSize(width, height);
-	glutCreateWindow("Draw Triangle");
+	glutCreateWindow("LUNAR ROCEKET THINGEHY");
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClearColor(0.05, 0.05, 0.05, 0.0);

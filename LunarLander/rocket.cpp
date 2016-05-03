@@ -16,7 +16,7 @@ Rocket::Rocket(float x, float y, float f, float a, float ms)
 	accelerating = false;
 	radius = 25;
 	colRadius = 15;
-	locked = false;
+	locked = true;
 }
 
 Rocket::~Rocket()
@@ -178,4 +178,10 @@ void Rocket::update()
 void Rocket::update(particle p)
 {
 	collision(p);
+}
+
+void Rocket::follow(tank t)
+{
+	position.setX((t.radius + 25) * cos(t.playerAngle) + t.position.getX());
+	position.setY((t.radius + 25) * sin(t.playerAngle) + t.position.getY());
 }
