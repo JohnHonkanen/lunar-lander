@@ -17,7 +17,7 @@
 float height, width;
 
 Rocket player;
-const int numMoons = 10;
+const int numMoons = 100;
 tank artillery;
 
 UIManager *UI;
@@ -56,6 +56,13 @@ void renderScene() {
 				UI->DrawPointers(player.radius, player.getAngleToTarget(moons[i]), player.position, vector(1.0f, 0.0f, 0.0f), vector(1.0f, 0.0f, 0.0f), player.distanceTo(moons[i]) - moons[i].radius-player.radius);
 			}
 		}
+		else
+		{
+			if (player.distanceTo(moons[i]) < 2000)
+			{
+				UI->DrawPointers(50, player.getAngleToTarget(moons[i]), player.position, vector(1.0f, 0.0f, 0.0f), vector(1.0f, 0.0f, 0.0f), player.distanceTo(moons[i]) - moons[i].radius - player.radius);
+			}
+		}
 	}
 	
 	// Draw Tank Components
@@ -67,26 +74,53 @@ void renderScene() {
 		player.draw();
 		UI->DrawPointers(player.radius, player.getAngleToTarget(moons[moonLand]), player.position, vector(0.0f,0.0f,1.0f), vector(1.0f, 1.0f, 1.0f), player.distanceTo(moons[moonLand])- moons[moonLand].radius-player.radius);
 	}
+	else
+	{
+		UI->DrawPointers(50, player.getAngleToTarget(moons[moonLand]), player.position, vector(0.0f, 0.0f, 1.0f), vector(1.0f, 1.0f, 1.0f), player.distanceTo(moons[moonLand]) - moons[moonLand].radius - player.radius);
+	}
 	
 	//Main UI Draws
 	vector color;
-	if (player.getFuel() > 60)
+	vector UIFuel = vector(player.position.getX() + width / 2 - 50, player.position.getY() + height / 2 - 50);
+	if(!artillery.getLock())
 	{
-		color = vector(0.0f, 1.0f, 0.0f);
-	}
+		if (artillery.getFuel() > 60)
+		{
+			color = vector(0.0f, 1.0f, 0.0f);
+		}
 
-	else if (player.getFuel() > 30 || player.getFuel() < 60)
-	{
-		color = vector(1.0f * (float)player.getFuel(), 1.0f * (float)player.getFuel() / 100, 0.0f);
+		else if (player.getFuel() > 30 || player.getFuel() < 60)
+		{
+			color = vector(1.0f * (float)player.getFuel(), 1.0f * (float)player.getFuel() / 100, 0.0f);
+		}
+		else
+		{
+			color = vector(1.0f * (float)player.getFuel(), 0.0f, 0.0f);
+		}
+		UI->drawCircle(UIFuel.getX(), UIFuel.getY(), 32, 50, color, false, 5);
+		UI->displayFloat(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() + 15, UIFuel.getY() - 5, round(artillery.getFuel()));
+		UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() + 15, UIFuel.getY() - 25, "Litres");
 	}
 	else
 	{
-		color = vector(1.0f * (float)player.getFuel(), 0.0f, 0.0f);
+		if (player.getFuel() > 60)
+		{
+			color = vector(0.0f, 1.0f, 0.0f);
+		}
+
+		else if (player.getFuel() > 30 || player.getFuel() < 60)
+		{
+			color = vector(1.0f * (float)player.getFuel(), 1.0f * (float)player.getFuel() / 100, 0.0f);
+		}
+		else
+		{
+			color = vector(1.0f * (float)player.getFuel(), 0.0f, 0.0f);
+		}
+		vector UIFuel = vector(player.position.getX() + width / 2 - 50, player.position.getY() + height / 2 - 50);
+		UI->drawCircle(UIFuel.getX(), UIFuel.getY(), 32, 50, color, false, 5);
+		UI->displayFloat(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() + 15, UIFuel.getY() - 5, round(player.getFuel()));
+		UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() + 15, UIFuel.getY() - 25, "Litres");
 	}
-	vector UIFuel = vector(player.position.getX() + width / 2 - 50, player.position.getY() + height / 2 - 50);
-	UI->drawCircle(UIFuel.getX(), UIFuel.getY() , 32, 50, color, false, 5);
-	UI->displayFloat(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() + 15, UIFuel.getY() - 5 , round(player.getFuel()));
-	UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() + 15, UIFuel.getY() - 25, "Litres");
 	glColor3f(0.0f, 1.0f, 0.0f);
 	UI->drawCircle(UIFuel.getX() - 0, UIFuel.getY() - 80, 32, 25, vector(0,1,0), false, 3);
 	UI->drawArrow(UIFuel.getX() - 0, UIFuel.getY() - 80, 20, player.getVelocityAngle(), vector(0,1,0));
@@ -100,7 +134,7 @@ void renderScene() {
 		UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - 15, UIFuel.getY() - 125, "KM/H");
 	}
 
-	UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - 80 , UIFuel.getY()+ 20, "Dampening System");
+	UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - 80 , UIFuel.getY()+ 20, "Dampening System (E)");
 	if (player.checkDampeners())
 	{
 		
@@ -151,6 +185,8 @@ void idle(int value)
 			player.update(moons[i], false);
 		}
 	}
+	player.update(artillery, false);
+	player.gravitateTo(artillery);
 	player.update();
 	artillery.updateTank();
 	if (!artillery.getLock())
@@ -192,9 +228,9 @@ int main(int argc, char** argv)
 
 	// Initialize Tank
 	float randomAngle = (float)random(0, 200) / 10;
-	artillery = tank(width * 5, height * 5, 1500, 100, randomAngle);
+	artillery = tank(random(-width * 8, width * 8), random(-height * 8, height * 8), 1500, 100, randomAngle);
 
-	player = Rocket(width * 5, height * 5, 100, 0.1f, 10);
+	player = Rocket(0,0, 100, 0.1f, 10);
 	player.follow(artillery); //Sets initial Position to tank
 
 	UI = new UIManager();
@@ -206,7 +242,7 @@ int main(int argc, char** argv)
 	for (int i = 0; i < numMoons; i++)
 	{
 		sizeOfMoonLoc++;
-		moonLocation[i] = vector(random(-width * 4, width * 4), random(-height * 4, height * 4));
+		moonLocation[i] = vector(random(-width * 24, width * 24), random(-height * 24, height * 24));
 		float moonRadius = random(300, 500);
 		moons[i] = Moon(moonLocation[i], moonRadius, 0, 0, 0, 60);
 
@@ -214,9 +250,9 @@ int main(int argc, char** argv)
 		{
 			if (z != i)
 			{
-				while (moons[i].checkCollision(moons[z]))
+				while (moons[i].checkCollision(moons[z]) || moons[i].checkCollision(artillery))
 				{
-					moonLocation[i] = vector(random(-width * 4, width * 4), random(-height * 4, height * 4));
+					moonLocation[i] = vector(random(-width * 24, width * 24), random(-height * 24, height * 24));
 					moons[i] = Moon(moonLocation[i], moonRadius, 0, 0, 0, round(moonRadius / 10));
 				}
 			}
@@ -238,7 +274,6 @@ int main(int argc, char** argv)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClearColor(0.05, 0.05, 0.05, 0.0);
-	//gluOrtho2D(0, width, height, 0);
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(renderScene);
 	glutKeyboardFunc(keyDown);

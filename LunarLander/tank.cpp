@@ -6,7 +6,9 @@ tank::tank(float x, float y, float r, float f, float sPA)
 	radius = r;
 	tankFuel = f;
 	playerAngle = sPA;
+	colRadius = radius;
 	locked = false;
+	mass = radius * 100;
 }
 
 tank::tank()
@@ -222,4 +224,9 @@ void tank::controlEvent(unsigned char k, bool pressed)
 			break;
 		}
 	}
+}
+
+float tank::getFuel()
+{
+	return tankFuel;
 }

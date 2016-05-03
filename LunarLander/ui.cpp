@@ -17,7 +17,7 @@ void UIManager::DrawPointers(float radius, float angleToTarget, vector position,
 	glVertex2f((radius + 20) * cos(M_PI + angleToTarget + 0.1) + position.getX(), (radius + 20) * sin(M_PI + angleToTarget + 0.1) + position.getY());
 	glEnd();
 	glColor3f(textColor.getX(), textColor.getY(), textColor.getZ());
-	displayFloat(GLUT_BITMAP_HELVETICA_12, (radius + 35) * cos(M_PI * 1 + angleToTarget) + position.getX(), (radius + 35) * sin(M_PI * 1 + angleToTarget) + position.getY(),distance);
+	displayFloat(GLUT_BITMAP_HELVETICA_12, (radius + (35 * (radius/20))) * cos(M_PI * 1 + angleToTarget) + position.getX(), (radius + (35 * (radius / 20))) * sin(M_PI * 1 + angleToTarget) + position.getY(),distance);
 }
 
 void UIManager::drawString(void *font, float x, float y, const char *str)

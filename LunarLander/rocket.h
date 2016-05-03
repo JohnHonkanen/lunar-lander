@@ -17,15 +17,16 @@ public:
 	void draw(); // Draw our Rocket
 	void update(); //Update our Position
 	void update(particle, bool isTarget); //Update our Collision
-	float getAngleToTarget(particle); //Find Angle to Particle
 	void follow(tank);
 	float getFuel();
-	float getVelocity();
 	void setFuel(float fuel);
-	float getVelocityAngle();
+	float getVelocity();
+	float getVelocityAngle(); //Velocity Direction
 	bool checkDampeners();
 	bool checkCrashed();
 	bool checkLanded();
+
+	void setFacingAngle(float angle); // Angle Our Ship is Facing 0 = North
 
 private:
 
@@ -44,5 +45,4 @@ private:
 	bool deacclerating = false;
 	bool shot = false;
 	bool dampeners = false;
-	float angleToTarget = 0;
 };

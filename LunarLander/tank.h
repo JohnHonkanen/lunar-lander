@@ -16,6 +16,8 @@ public:
 	void controlEvent(unsigned char key, bool keyPressed);
 	void draw();
 
+	float getFuel();
+
 	float playerAngle = 0;
 	
 

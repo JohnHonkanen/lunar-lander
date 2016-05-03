@@ -25,6 +25,7 @@ public:
 	bool getLock();
 
 	float distanceTo(particle);
+	float getAngleToTarget(particle); //Find Angle to Particle
 
 	float radius = 0;
 	float colRadius = 0; //Collision Radius
@@ -46,6 +47,8 @@ protected:
 	bool locked = true; //Set our Particle to not be affected by physics.
 	bool crashed = false; // Check if our particle Crashed
 	bool landed = false; // Particle Safely landed
+
+	float angleToTarget = 0;
 
 private:
 

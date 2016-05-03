@@ -100,12 +100,7 @@ void Rocket::draw()
 }
 
 //Pointing our Arrow Indicator the particle
-float Rocket::getAngleToTarget(particle p)
-{
-	float angle = angleTo(p);
-	angleToTarget = -angle -M_PI/2;
-	return angleToTarget;
-}
+
 
 void Rocket::accelerate(vector accel)
 {
@@ -230,4 +225,10 @@ bool Rocket::checkCrashed()
 bool Rocket::checkLanded()
 {
 	return landed;
+}
+
+void Rocket::setFacingAngle(float angle) 
+{
+
+	facingAngle = angle;
 }

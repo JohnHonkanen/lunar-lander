@@ -171,6 +171,13 @@ bool particle::getLock()
 	return locked;
 }
 
+float particle::getAngleToTarget(particle p)
+{
+	float angle = angleTo(p);
+	angleToTarget = -angle - M_PI / 2;
+	return angleToTarget;
+}
+
 particle::~particle()
 {
 }
