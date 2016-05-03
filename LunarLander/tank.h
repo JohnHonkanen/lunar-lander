@@ -24,6 +24,7 @@ private:
 	bool turningRight = false;
 	bool increaseAngleCannon = false;
 	bool decreaseAngleCannon = false;
+	bool Shoot = false;
 
 	float cannonRotate = 0;
 	float cannonLength;

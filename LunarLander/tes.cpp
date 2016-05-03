@@ -4,18 +4,24 @@
 #include<iostream>
 #include <cmath>
 #include <time.h>
+#include <cstring>
 
 #include "tank.h"
 #include "rocket.h"
 #include "stars.h"
 #include "moon.h"
 #include "helperFunctions.h"
+#include "ui.h"
 
 
 float height, width;
 
 Rocket player;
 const int numMoons = 10;
+tank artillery;
+
+UIManager *UI;
+
 Moon moons[numMoons];
 vector moonLocation[numMoons];
 
@@ -24,8 +30,6 @@ Star * star[numStars];
 
 int seed;
 int moonLand;
-
-tank artillery;
 
 void renderScene() {
 
@@ -45,6 +49,13 @@ void renderScene() {
 	for (int i = 0; i < numMoons; i++)
 	{
 		moons[i].draw();
+		if (artillery.getLock())
+		{
+			if (player.distanceTo(moons[i]) < 2000)
+			{
+				UI->DrawPointers(player.radius, player.getAngleToTarget(moons[i]), player.position, vector(1.0f, 0.0f, 0.0f), vector(1.0f, 0.0f, 0.0f), player.distanceTo(moons[i]) - moons[i].radius-player.radius);
+			}
+		}
 	}
 	
 	// Draw Tank Components
@@ -54,10 +65,29 @@ void renderScene() {
 	if (artillery.getLock())
 	{
 		player.draw();
-		player.drawPointer();
+		UI->DrawPointers(player.radius, player.getAngleToTarget(moons[moonLand]), player.position, vector(0.0f,0.0f,1.0f), vector(1.0f, 1.0f, 1.0f), player.distanceTo(moons[moonLand])- moons[moonLand].radius-player.radius);
 	}
 	
-	
+	//Main UI Draws
+	vector color;
+	if (player.getFuel() > 60)
+	{
+		color = vector(0.0f, 1.0f, 0.0f);
+	}
+
+	else if (player.getFuel() > 30 || player.getFuel() < 60)
+	{
+		color = vector(1.0f * (float)player.getFuel(), 1.0f * (float)player.getFuel() / 100, 0.0f);
+	}
+	else
+	{
+		color = vector(1.0f * (float)player.getFuel(), 0.0f, 0.0f);
+	}
+	vector UIFuel = vector(player.position.getX() + width / 2 - 50, player.position.getY() + height / 2 - 50);
+	UI->drawCircle(UIFuel.getX(), UIFuel.getY() , 32, 50, color, false, 5);
+	UI->displayFloat(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() + 15, UIFuel.getY() - 5 , round(player.getFuel()));
+	UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() + 15, UIFuel.getY() - 25, "Litres");
+	//End of UI Draws
 	//End of Render Scene
 	glutSwapBuffers();
 
@@ -79,7 +109,6 @@ void idle(int value)
 		player.update(moons[i]);
 	}
 	player.update();
-	player.updatePointer(moons[moonLand]);
 	artillery.updateTank();
 	if (!artillery.getLock())
 	{
@@ -120,10 +149,12 @@ int main(int argc, char** argv)
 
 	// Initialize Tank
 	float randomAngle = (float)random(0, 200) / 10;
-	artillery = tank(player.position.getX(), player.position.getY(), 1500, 100, randomAngle);
+	artillery = tank(width * 5, height * 5, 1500, 100, randomAngle);
 
 	player = Rocket(width * 5, height * 5, 100, 0.1f, 10);
 	player.follow(artillery); //Sets initial Position to tank
+
+	UI = new UIManager();
 
 	moonLand = random(0, numMoons-1);
 	seed = random(-123456, 123456);

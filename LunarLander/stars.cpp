@@ -29,6 +29,7 @@ void Star::draw()
 	const float TWOPI = 2 * M_PI;
 	const float STEP = TWOPI / NPOINTS;
 	//Glow
+	glLineWidth(1);
 	glColor4f(color.getX(), color.getY(), color.getZ(), glowAlpha);
 	glBegin(GL_LINE_LOOP);
 	glVertex2f(radius * cos(M_PI * 0.00) + position.getX(), radius * sin(M_PI * 0.00) + position.getY());

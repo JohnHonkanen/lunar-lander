@@ -18,8 +18,9 @@ public:
 	void drawPointer(); //Draw our Arrow
 	void update(); //Update our Position
 	void update(particle); //Update our Collision
-	void updatePointer(particle); //Find Angle to Particle
+	float getAngleToTarget(particle); //Find Angle to Particle
 	void follow(tank);
+	float getFuel();
 
 private:
 
@@ -36,6 +37,7 @@ private:
 	bool turningLeft = false;
 	bool turningRight = false;
 	bool deacclerating = false;
+	bool shot = false;
 	bool dampeners = false;
 	float angleToTarget = 0;
 };

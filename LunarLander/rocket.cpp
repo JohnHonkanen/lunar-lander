@@ -49,6 +49,9 @@ void Rocket::controlEvent(unsigned char k, bool pressed)
 			{
 				dampeners = false;
 			}
+		case ' ':
+			shot = true;
+			break;
 		default:
 			break;
 		}
@@ -107,10 +110,11 @@ void Rocket::drawPointer()
 	glEnd();
 }
 //Pointing our Arrow Indicator the particle
-void Rocket::updatePointer(particle p)
+float Rocket::getAngleToTarget(particle p)
 {
 	float angle = angleTo(p);
 	angleToTarget = -angle -M_PI/2;
+	return angleToTarget;
 }
 
 void Rocket::accelerate(vector accel)
@@ -168,6 +172,10 @@ void Rocket::updatePosition()
 //Update Position based on Velocity
 void Rocket::update()
 {
+	if (shot)
+	{
+		setLock(false);
+	}
 	if (!locked)
 	{
 		updateVelocity();
@@ -184,4 +192,9 @@ void Rocket::follow(tank t)
 {
 	position.setX((t.radius + 25) * cos(t.playerAngle) + t.position.getX());
 	position.setY((t.radius + 25) * sin(t.playerAngle) + t.position.getY());
+}
+
+float Rocket::getFuel()
+{
+	return fuel;
 }

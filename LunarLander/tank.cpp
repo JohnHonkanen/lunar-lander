@@ -127,6 +127,11 @@ void tank::drawCannon()
 // Tank Cannon Head Rotate speed + Fuel Control
 void tank::updateTank()
 {
+	if (Shoot)
+	{
+		setLock(true);
+
+	}
 	if (!locked)
 	{
 		if (tankFuel > 0)
@@ -189,7 +194,10 @@ void tank::controlEvent(unsigned char k, bool pressed)
 			break;
 		case 's':
 			decreaseAngleCannon = true;
-			break;		
+			break;
+		case ' ':
+			Shoot = true;
+			break;
 		default:
 			break;
 		}

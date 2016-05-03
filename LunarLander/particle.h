@@ -24,6 +24,8 @@ public:
 	void setLock(bool lock);
 	bool getLock();
 
+	float distanceTo(particle);
+
 	float radius = 0;
 	float colRadius = 0; //Collision Radius
 	float mass = 1; // Mass for our Gravitational Pull Calculation
@@ -34,7 +36,6 @@ protected:
 	virtual void accelerate(vector);
 
 	float angleTo(particle);
-	float distanceTo(particle);
 	vector calculateCollisionPoint(particle); //Find our point of collision
 
 	vector velocity;
