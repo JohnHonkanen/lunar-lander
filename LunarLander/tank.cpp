@@ -6,6 +6,7 @@ tank::tank(float x, float y, float r, float f, float sPA)
 	radius = r;
 	tankFuel = f;
 	playerAngle = sPA;
+	locked = false;
 }
 
 tank::tank()
@@ -126,41 +127,44 @@ void tank::drawCannon()
 // Tank Cannon Head Rotate speed + Fuel Control
 void tank::updateTank()
 {
-	if (tankFuel > 0)
+	if (!locked)
 	{
-		if (turningLeft)
+		if (tankFuel > 0)
 		{
-			tankFuel -= 0.1;
-			playerAngle -= 0.01;	
-
-		}
-
-		else if (turningRight)
-		{
-			tankFuel -= 0.1;
-			playerAngle += 0.01;
-		}
-
-		if (increaseAngleCannon)
-		{
-			tankFuel -= 0.0322;
-			cannonRotate += 0.02;
-
-			if (cannonRotate > 1)
+			if (turningLeft)
 			{
-				cannonRotate = 1;
+				tankFuel -= 0.1;
+				playerAngle -= 0.01;
+
 			}
-		}
 
-		else if (decreaseAngleCannon)
-		{
-			tankFuel -= 0.0322;
-			cannonRotate -= 0.02;
-
-			if (cannonRotate < -1)
+			else if (turningRight)
 			{
-				cannonRotate = -1;
+				tankFuel -= 0.1;
+				playerAngle += 0.01;
+			}
 
+			if (increaseAngleCannon)
+			{
+				tankFuel -= 0.0322;
+				cannonRotate += 0.02;
+
+				if (cannonRotate > 1)
+				{
+					cannonRotate = 1;
+				}
+			}
+
+			else if (decreaseAngleCannon)
+			{
+				tankFuel -= 0.0322;
+				cannonRotate -= 0.02;
+
+				if (cannonRotate < -1)
+				{
+					cannonRotate = -1;
+
+				}
 			}
 		}
 	}	

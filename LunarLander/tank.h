@@ -28,5 +28,4 @@ private:
 	float cannonRotate = 0;
 	float cannonLength;
 	float tankFuel;
-
 };

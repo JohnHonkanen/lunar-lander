@@ -9,7 +9,7 @@
 class Rocket: public particle
 {
 public:
-	Rocket(float, float, float, float, float);
+	Rocket(float x, float y, float fuel, float accelerationSpeed, float maxSpeed);
 	Rocket();
 	~Rocket();
 

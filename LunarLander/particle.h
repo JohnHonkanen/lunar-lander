@@ -20,6 +20,10 @@ public:
 	bool checkCollision(particle); //Check if Colliding
 	void setColor(vector color3D); //Set our Color using a 3D vector
 
+	//Locking Mechanims
+	void setLock(bool lock);
+	bool getLock();
+
 	float radius = 0;
 	float colRadius = 0; //Collision Radius
 	float mass = 1; // Mass for our Gravitational Pull Calculation

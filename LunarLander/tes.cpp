@@ -51,8 +51,11 @@ void renderScene() {
 	artillery.draw();
 
 	// The actual rocket
-	//player.draw();
-	//player.drawPointer();
+	if (artillery.getLock())
+	{
+		player.draw();
+		player.drawPointer();
+	}
 	
 	
 	//End of Render Scene
@@ -78,7 +81,11 @@ void idle(int value)
 	player.update();
 	player.updatePointer(moons[moonLand]);
 	artillery.updateTank();
-	player.follow(artillery);
+	if (!artillery.getLock())
+	{
+		player.follow(artillery);
+	}
+	
 
 	/* End of Calculation */
 	glutPostRedisplay();
@@ -110,7 +117,14 @@ int main(int argc, char** argv)
 	height = 1000;
 	width = 1000;
 	//Initialize Object Data
+
+	// Initialize Tank
+	float randomAngle = (float)random(0, 200) / 10;
+	artillery = tank(player.position.getX(), player.position.getY(), 1500, 100, randomAngle);
+
 	player = Rocket(width * 5, height * 5, 100, 0.1f, 10);
+	player.follow(artillery); //Sets initial Position to tank
+
 	moonLand = random(0, numMoons-1);
 	seed = random(-123456, 123456);
 	int sizeOfMoonLoc = -1;
@@ -139,9 +153,6 @@ int main(int argc, char** argv)
 		star[i] = new Star(vector(random(-width*8,width*8), random(-height*8,height*8)), vector(0.8f, 0.8f, 0.0f), random(3, 15), random(0,100));
 	}
 
-	// Initialize Tank
-	float randomAngle = (float) random(0, 200) / 10;
-	artillery = tank(player.position.getX(), player.position.getY(), 1500, 100, randomAngle);
 	
 	//End of Initialization
 

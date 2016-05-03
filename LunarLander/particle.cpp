@@ -121,6 +121,16 @@ void particle::setColor(vector color)
 	this->color = color;
 }
 
+void particle::setLock(bool lock)
+{
+	locked = lock;
+}
+
+bool particle::getLock()
+{
+	return locked;
+}
+
 particle::~particle()
 {
 }
