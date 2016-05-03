@@ -15,12 +15,17 @@ public:
 
 	void controlEvent(unsigned char, bool);
 	void draw(); // Draw our Rocket
-	void drawPointer(); //Draw our Arrow
 	void update(); //Update our Position
-	void update(particle); //Update our Collision
+	void update(particle, bool isTarget); //Update our Collision
 	float getAngleToTarget(particle); //Find Angle to Particle
 	void follow(tank);
 	float getFuel();
+	float getVelocity();
+	void setFuel(float fuel);
+	float getVelocityAngle();
+	bool checkDampeners();
+	bool checkCrashed();
+	bool checkLanded();
 
 private:
 

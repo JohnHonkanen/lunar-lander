@@ -84,13 +84,54 @@ vector particle::calculateCollisionPoint(particle col)
 	return collisionPoint;
 }
 
+void particle::checkBackCollision(particle col, float a, bool isTarget)
+{
+	float dx = position.getX() - col.position.getX();
+	float dy = position.getY() - col.position.getY();
+	float angle = atan2(dy, dx);
+	int turns = ceil(abs(a) / (2 * M_PI)) - 1;
+	float faceAngle = a;
+	if (turns >= 1)
+	{
+		if (faceAngle < 0)
+		{
+			faceAngle = a + (M_PI * 2) * turns;
+		}
+		else
+		{
+			faceAngle = a - (M_PI * 2) * turns;
+		}
+	}
+	float frontAngle = faceAngle - (M_PI / 2);
+	float backAngle1 = frontAngle + M_PI;
+	float backAngle2 = frontAngle - M_PI;
+
+	if (velocity.getLength() < 3)
+	{
+		if (backAngle1 < angle + 0.6 && backAngle1 > angle - 0.6)
+		{
+			if (isTarget)
+				landed = true;
+		}
+		else
+		{
+			crashed = true;
+		}
+	}
+	else
+	{
+		crashed = true;
+	}
+}
 //Check our Collision and Apply proper Constraints
-void particle::collision(particle col)
+void particle::collision(particle col, float a, bool isTarget)
 {
 	vector collisionPoint = calculateCollisionPoint(col);
 	
 	if (checkCollision(col))
 	{
+		checkBackCollision(col, a, isTarget);
+
 		if (collisionPoint.getX() > position.getX())
 		{
 			if (velocity.getX() > 0)

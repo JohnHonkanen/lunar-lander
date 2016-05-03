@@ -15,6 +15,7 @@ public:
 	void drawString(void *font, float x, float y, const char *str);
 	void displayFloat(void *font, float x, float y, float num);
 	void drawCircle(float x, float y, int vertices, float radius, vector color, bool fill, int lineWidth);
+	void drawArrow(float x, float y, float radius, float angle, vector color);
 
 private:
 

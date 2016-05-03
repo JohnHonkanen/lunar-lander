@@ -40,6 +40,7 @@ void Rocket::controlEvent(unsigned char k, bool pressed)
 			break;
 		case 's':
 			deacclerating = true;
+			break;
 		case 'e':
 			if (!dampeners)
 			{
@@ -97,18 +98,7 @@ void Rocket::draw()
 		glEnd();
 	}
 }
-//Drawing our Arrow Indicator
-void Rocket::drawPointer()
-{
-	float pointerRadius = radius + 10;
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glBegin(GL_POLYGON);
-	glVertex2f(radius * cos(M_PI + angleToTarget - 0.3) + position.getX(), radius * sin(M_PI + angleToTarget - 0.3) + position.getY());
-	glVertex2f(pointerRadius * cos(M_PI+angleToTarget) + position.getX(), pointerRadius * sin(M_PI+angleToTarget) + position.getY());
-	glVertex2f(radius * cos(M_PI + angleToTarget + 0.3) + position.getX(), radius * sin(M_PI + angleToTarget + 0.3) + position.getY());
 
-	glEnd();
-}
 //Pointing our Arrow Indicator the particle
 float Rocket::getAngleToTarget(particle p)
 {
@@ -162,6 +152,10 @@ void Rocket::updateVelocity()
 		}
 
 	}
+	else
+	{
+		thrust.setLength(0);
+	}
 	accelerate(thrust);
 }
 //Update our Position
@@ -176,6 +170,16 @@ void Rocket::update()
 	{
 		setLock(false);
 	}
+
+	if (crashed)
+	{
+		setLock(true);
+	}
+
+	if (landed)
+	{
+		setLock(true);
+	}
 	if (!locked)
 	{
 		updateVelocity();
@@ -183,9 +187,9 @@ void Rocket::update()
 	}
 }
 //Update Our Check for Collision
-void Rocket::update(particle p)
+void Rocket::update(particle p, bool isTarget)
 {
-	collision(p);
+	collision(p, facingAngle, isTarget);
 }
 
 void Rocket::follow(tank t)
@@ -197,4 +201,33 @@ void Rocket::follow(tank t)
 float Rocket::getFuel()
 {
 	return fuel;
+}
+
+void Rocket::setFuel(float f)
+{
+	fuel = f;
+}
+
+float Rocket::getVelocity()
+{
+	return velocity.getLength();
+}
+
+float Rocket::getVelocityAngle()
+{
+	return velocity.getAngle();
+}
+
+bool Rocket::checkDampeners()
+{
+	return dampeners;
+}
+
+bool Rocket::checkCrashed()
+{
+	return crashed;
+}
+bool Rocket::checkLanded()
+{
+	return landed;
 }

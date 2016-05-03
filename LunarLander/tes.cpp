@@ -87,6 +87,42 @@ void renderScene() {
 	UI->drawCircle(UIFuel.getX(), UIFuel.getY() , 32, 50, color, false, 5);
 	UI->displayFloat(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() + 15, UIFuel.getY() - 5 , round(player.getFuel()));
 	UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() + 15, UIFuel.getY() - 25, "Litres");
+	glColor3f(0.0f, 1.0f, 0.0f);
+	UI->drawCircle(UIFuel.getX() - 0, UIFuel.getY() - 80, 32, 25, vector(0,1,0), false, 3);
+	UI->drawArrow(UIFuel.getX() - 0, UIFuel.getY() - 80, 20, player.getVelocityAngle(), vector(0,1,0));
+	UI->displayFloat(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() + 30, UIFuel.getY() - 125, (float)round(player.getVelocity()*100));
+	if (player.getVelocity() < 10)
+	{
+		UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() + 0, UIFuel.getY() - 125, "KM/H");
+	}
+	else if (player.getVelocity() > 10)
+	{
+		UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - 15, UIFuel.getY() - 125, "KM/H");
+	}
+
+	UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - 80 , UIFuel.getY()+ 20, "Dampening System");
+	if (player.checkDampeners())
+	{
+		
+		UI->drawString(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() - 80, UIFuel.getY(), "Online");
+	}
+	else
+	{
+		glColor3f(1.0f, 0, 0);
+		UI->drawString(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() - 80, UIFuel.getY(), "Offline");
+	}
+
+	if (player.checkCrashed())
+	{
+		glColor3f(1.0f, 0, 0);
+		UI->drawString(GLUT_BITMAP_HELVETICA_18, player.position.getX(), player.position.getY(), "Crashed");
+	}
+
+	else if (player.checkLanded())
+	{
+		glColor3f(0, 1.0f, 0);
+		UI->drawString(GLUT_BITMAP_HELVETICA_18, player.position.getX(), player.position.getY(), "Landed");
+	}
 	//End of UI Draws
 	//End of Render Scene
 	glutSwapBuffers();
@@ -106,7 +142,14 @@ void idle(int value)
 	for (int i = 0; i < numMoons; i++)
 	{
 		player.gravitateTo(moons[i]);
-		player.update(moons[i]);
+		if (i == moonLand)
+		{
+			player.update(moons[i], true);
+		}
+		else
+		{
+			player.update(moons[i], false);
+		}
 	}
 	player.update();
 	artillery.updateTank();

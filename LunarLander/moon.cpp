@@ -20,7 +20,7 @@ Moon::Moon(vector pos, float r, float speed, float direction, float grav, int nu
 	numVertices = numVerts;
 	vertices = new vector[numVertices+1];
 	radius = r;
-	mass = radius * 50;
+	mass = radius * 1;
 	colRadius = radius;
 
 	const int NPOINTS = numVertices;

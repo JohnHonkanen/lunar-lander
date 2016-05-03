@@ -59,3 +59,16 @@ void UIManager::drawCircle(float x, float y, int verts, float r, vector c, bool 
 
 	glEnd();
 }
+
+void UIManager::drawArrow(float x, float y, float r, float a, vector c)
+{
+	glLineWidth(2);
+	glBegin(GL_LINES);
+	glVertex2f(x, y);
+	glVertex2f(r * cos(a) + x, r* sin(a) + y);
+	glVertex2f((r-5) * cos(a + 0.2) + x, (r-5)* sin(a + 0.2) + y);
+	glVertex2f(r * cos(a) + x, r* sin(a) + y);
+	glVertex2f((r - 5) * cos(a - 0.2) + x, (r - 5)* sin(a - 0.2) + y);
+	glVertex2f(r * cos(a) + x, r* sin(a) + y);
+	glEnd();
+}
