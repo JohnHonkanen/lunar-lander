@@ -1,6 +1,6 @@
 /**
-	Lunar Lander UWS Project
-	B00291253, B00294272
+Lunar Lander UWS Project
+B00291253, B00294272
 **/
 
 #define _USE_MATH_DEFINES
@@ -46,9 +46,9 @@ void renderScene() {
 	//Camera Follow
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(player.position.getX()+width*zoom/2, player.position.getY()-height*zoom/2, 0,
-		player.position.getX()+width*zoom/2, player.position.getY() - height*zoom/2,10,
-		0,1,0);
+	gluLookAt(player.position.getX() + width*zoom / 2, player.position.getY() - height*zoom / 2, 0,
+		player.position.getX() + width*zoom / 2, player.position.getY() - height*zoom / 2, 10,
+		0, 1, 0);
 
 	//Render Scene and Draw
 	for (int i = 0; i < numStars; i++)
@@ -62,7 +62,7 @@ void renderScene() {
 		{
 			if (player.distanceTo(moons[i]) < 2000)
 			{
-				UI->DrawPointers(player.radius, player.getAngleToTarget(moons[i]), player.position, vector(1.0f, 0.0f, 0.0f), vector(1.0f, 0.0f, 0.0f), player.distanceTo(moons[i]) - moons[i].radius-player.radius);
+				UI->DrawPointers(player.radius, player.getAngleToTarget(moons[i]), player.position, vector(1.0f, 0.0f, 0.0f), vector(1.0f, 0.0f, 0.0f), player.distanceTo(moons[i]) - moons[i].radius - player.radius);
 			}
 		}
 		else
@@ -73,7 +73,7 @@ void renderScene() {
 			}
 		}
 	}
-	
+
 	// Draw Tank Components
 	artillery.draw();
 
@@ -81,13 +81,13 @@ void renderScene() {
 	if (artillery.getLock())
 	{
 		player.draw();
-		UI->DrawPointers(player.radius, player.getAngleToTarget(moons[moonLand]), player.position, vector(0.0f,0.0f,1.0f), vector(1.0f, 1.0f, 1.0f), player.distanceTo(moons[moonLand])- moons[moonLand].radius-player.radius);
+		UI->DrawPointers(player.radius, player.getAngleToTarget(moons[moonLand]), player.position, vector(0.0f, 0.0f, 1.0f), vector(1.0f, 1.0f, 1.0f), player.distanceTo(moons[moonLand]) - moons[moonLand].radius - player.radius);
 	}
 	else
 	{
 		UI->DrawPointers(50, player.getAngleToTarget(moons[moonLand]), player.position, vector(0.0f, 0.0f, 1.0f), vector(1.0f, 1.0f, 1.0f), player.distanceTo(moons[moonLand]) - moons[moonLand].radius - player.radius);
 	}
-	
+
 	//Main UI Draws
 
 	if (showUI)
@@ -134,18 +134,18 @@ void renderScene() {
 		}
 		glColor3f(0.0f, 1.0f, 0.0f);
 		UI->drawCircle(UIFuel.getX() - (0 * zoom), UIFuel.getY() - (80 * zoom), 32, 25, vector(0, 1, 0), false, 3);
-		UI->drawArrow(UIFuel.getX() - (0 *zoom), UIFuel.getY() - (80 * zoom), 20, player.getVelocityAngle(), vector(0, 1, 0));
+		UI->drawArrow(UIFuel.getX() - (0 * zoom), UIFuel.getY() - (80 * zoom), 20, player.getVelocityAngle(), vector(0, 1, 0));
 		UI->displayFloat(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() + (30 * zoom), UIFuel.getY() - (125 * zoom), (float)round(player.getVelocity() * 100));
 		if (player.getVelocity() < 10)
 		{
-			UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() -(5*zoom), UIFuel.getY() - (125 * zoom), "KM/H");
+			UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - (5 * zoom), UIFuel.getY() - (125 * zoom), "KM/H");
 		}
 		else if (player.getVelocity() > 10)
 		{
-			UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - (15*zoom), UIFuel.getY() - (125 * zoom), "KM/H");
+			UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - (15 * zoom), UIFuel.getY() - (125 * zoom), "KM/H");
 		}
 
-		UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - (80*zoom), UIFuel.getY() + (20*zoom), "Dampening System (E)");
+		UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - (80 * zoom), UIFuel.getY() + (20 * zoom), "Dampening System (E)");
 		if (player.checkDampeners())
 		{
 
@@ -198,14 +198,14 @@ void idle(int value)
 			{
 				if (playerAngle< 0)
 				{
-					AdjPlayerAngle = playerAngle + (M_PI *  2) * turns;
+					AdjPlayerAngle = playerAngle + (M_PI * 2) * turns;
 				}
 				else
 				{
 					AdjPlayerAngle = playerAngle - (M_PI * 2) * turns;
 				}
 			}
-			player.setVelocity(10, (M_PI/2) - AdjPlayerAngle + cannonAngle);
+			player.setVelocity(10, (M_PI / 2) - AdjPlayerAngle + cannonAngle);
 		}
 		artillery.setRocketRelease(true);
 	}
@@ -236,7 +236,7 @@ void idle(int value)
 	{
 		player.follow(artillery);
 	}
-	
+
 
 	/* End of Calculation */
 	glutPostRedisplay();
@@ -278,12 +278,12 @@ int main(int argc, char** argv)
 
 	artillery = tank(random(-width * 2, width * 2), random(-height * 2, height * 2), 1500, 100, randomAngle);
 
-	player = Rocket(0,0, 100, 0.1f, 10);
+	player = Rocket(0, 0, 100, 0.1f, 10);
 	player.follow(artillery); //Sets initial Position to tank
 
 	UI = new UIManager();
 
-	moonLand = random(0, numMoons-1);
+	moonLand = random(0, numMoons - 1);
 	seed = random(-123456, 123456);
 	int sizeOfMoonLoc = -1;
 	artillery.colRadius = artillery.radius * distanceFromStartMult;
@@ -304,18 +304,18 @@ int main(int argc, char** argv)
 					moonLocation[i] = vector(random(-width * 16, width * 16), random(-height * 16, height * 16));
 					moons[i] = Moon(moonLocation[i], moonRadius, 0, 0, 0, round(moonRadius / 10));
 				}
-				
+
 			}
 		}
 		if (i == moonLand)
 		{
-			moons[i].setColor(vector(1,1,1));
+			moons[i].setColor(vector(1, 1, 1));
 		}
 	}
 	artillery.colRadius = artillery.radius;
 	for (int i = 0; i < numStars; i++)
 	{
-		star[i] = new Star(vector(random(-width*16,width*16), random(-height*16,height*16)), vector(0.8f, 0.8f, 0.0f), random(3, 15), random(0,100));
+		star[i] = new Star(vector(random(-width * 16, width * 16), random(-height * 16, height * 16)), vector(0.8f, 0.8f, 0.0f), random(3, 15), random(0, 100));
 	}
 
 	//End of Initialization
@@ -332,6 +332,6 @@ int main(int argc, char** argv)
 	glutDisplayFunc(renderScene);
 	glutKeyboardFunc(keyDown);
 	glutKeyboardUpFunc(keyUp);
-	glutTimerFunc(41,idle,0);
+	glutTimerFunc(41, idle, 0);
 	glutMainLoop();
 }

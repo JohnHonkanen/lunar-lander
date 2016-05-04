@@ -132,6 +132,7 @@ void particle::checkBackCollision(particle col, float a, bool isTarget)
 	float angle = atan2(dy, dx);
 	int turns = ceil(abs(a) / (2 * M_PI)) - 1;
 	float faceAngle = a;
+	//Normalizing our Angle faceAngle (0 - 2PI)
 	if (turns >= 1)
 	{
 		if (faceAngle < 0)
@@ -143,6 +144,7 @@ void particle::checkBackCollision(particle col, float a, bool isTarget)
 			faceAngle = a - (M_PI * 2) * turns;
 		}
 	}
+	//Setting and Adjusting our Angles to Grid
 	float frontAngle = faceAngle - (M_PI / 2);
 	float backAngle1 = frontAngle + M_PI;
 	float backAngle2 = frontAngle - M_PI;

@@ -303,7 +303,7 @@ int main(int argc, char** argv)
 			}
 		}
 	}
-	artillery.colRadius = artillery.radius / distanceFromStartMult;
+	artillery.colRadius = artillery.radius;
 	for (int i = 0; i < numStars; i++)
 	{
 		star[i] = new Star(vector(random(-width*16,width*16), random(-height*16,height*16)), vector(0.8f, 0.8f, 0.0f), random(3, 15), random(0,100));
