@@ -20,11 +20,11 @@ public:
 	bool checkRocketRelease();
 	float getCannonAngle();
 	float getInverseCannonAngle();
-
+	float getCannonRotate();
+	float getPlayerAngle();
 	float getFuel();
 
 	float playerAngle = 0;
-	float getCannonRotate();
 	
 	vector cannonPosition;
 

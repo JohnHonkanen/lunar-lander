@@ -158,8 +158,6 @@ void renderScene() {
 		UI->drawString(GLUT_BITMAP_HELVETICA_18, player.position.getX() + 10, player.position.getY() + 35, "Landed");
 	}
 
-	player.draw();
-
 	//End of UI Draws
 	//End of Render Scene
 	glutSwapBuffers();
@@ -178,24 +176,24 @@ void idle(int value)
 	{
 		if (!artillery.checkRocketRelease())
 		{
-			float cannonAngle = artillery.getCannonAngle();
-			float realCannonAngle = artillery.getCannonRotate();
+			float playerAngle = artillery.getPlayerAngle();
+			float cannonAngle = artillery.getCannonRotate();
+			float AdjPlayerAngle = playerAngle;
 
-			int turns = ceil(abs(cannonAngle) / (2 * M_PI)) - 1;
+			int turns = ceil(abs(playerAngle) / (2 * M_PI)) - 1;
 
 			if (turns >= 1)
 			{
-				if (realCannonAngle< 0)
+				if (playerAngle< 0)
 				{
-					realCannonAngle = cannonAngle + (M_PI *  2) * turns;
+					AdjPlayerAngle = playerAngle + (M_PI *  2) * turns;
 				}
 				else
 				{
-					realCannonAngle = cannonAngle - (M_PI * 2) * turns;
+					AdjPlayerAngle = playerAngle - (M_PI * 2) * turns;
 				}
 			}
-			player.setVelocity(15, realCannonAngle);
-			std::cout << cannonAngle << "||" << player.velocity.getAngle() << "||" << realCannonAngle << std::endl;
+			player.setVelocity(10, (M_PI/2) - AdjPlayerAngle + cannonAngle);
 		}
 		artillery.setRocketRelease(true);
 	}

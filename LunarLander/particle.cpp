@@ -190,6 +190,9 @@ particle::~particle()
 
 void particle::setVelocity(float m, float a)
 {
-	velocity.setAngle(a);
+	std::cout << "Angle in VELO: " << a << std::endl;
 	velocity.setLength(m);
+	velocity.setAngle(a);
+	std::cout << "Angle After VELO: " << velocity.getAngle() << std::endl;
+
 }

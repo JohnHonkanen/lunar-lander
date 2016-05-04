@@ -109,7 +109,6 @@ void tank::drawCannon()
 // Draw Tank Barrel
 
 	float correctionAngle = 0;
-	playerAngle = 0;
 	
 	glColor3f(0.1, 0.1, 0.1);
 	glBegin(GL_POLYGON);
@@ -256,4 +255,9 @@ float tank::getInverseCannonAngle()
 float tank::getCannonRotate()
 {
 	return cannonRotate;
+}
+
+float tank::getPlayerAngle()
+{
+	return playerAngle;
 }
