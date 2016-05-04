@@ -139,12 +139,12 @@ void Rocket::updateVelocity()
 	{
 		if (accelerating)
 		{
-			fuel -= 0.1;
+			fuel -= 0.3;
 			thrust.setLength(acceleration);
 		}
 		else if (deacclerating)
 		{
-			fuel -= 0.01;
+			fuel -= 0.03;
 			thrust.setLength(-acceleration/10);
 
 		}
@@ -154,11 +154,11 @@ void Rocket::updateVelocity()
 			//Dampeners System
 			if (dampeners)
 			{
-				fuel -= 0.3;
+				fuel -= 0.8;
 				if (velocity.getLength() < 2)
 					velocity.setLength(0);
 				else
-					velocity.setLength(velocity.getLength() - acceleration*5);
+					velocity.setLength(velocity.getLength() - acceleration*4);
 			}
 		}
 
