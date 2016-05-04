@@ -16,7 +16,7 @@ tank::tank(float x, float y, float r, float f, float sPA)
 	playerAngle = sPA;
 	colRadius = radius;
 	locked = false;
-	mass = radius * 100;
+	mass = radius * 800;
 }
 
 /*

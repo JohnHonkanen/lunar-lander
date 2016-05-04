@@ -142,6 +142,7 @@ void renderScene() {
 		}
 
 		UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - (80*zoom), UIFuel.getY() + (20*zoom), "Dampening System (E)");
+
 		if (player.checkDampeners())
 		{
 
@@ -201,7 +202,7 @@ void idle(int value)
 					AdjPlayerAngle = playerAngle - (M_PI * 2) * turns;
 				}
 			}
-			player.setVelocity(10, (M_PI/2) - AdjPlayerAngle + cannonAngle);
+			player.setVelocity(50, (M_PI/2) - AdjPlayerAngle + cannonAngle);
 		}
 		artillery.setRocketRelease(true);
 	}
@@ -283,7 +284,7 @@ int main(int argc, char** argv)
 
 	artillery = tank(random(-width * 2, width * 2), random(-height * 2, height * 2), 1500, 100, randomAngle);
 
-	player = Rocket(0,0, 100, 0.1f, 10);
+	player = Rocket(0,0, 100, 1.0f, 10);
 	player.follow(artillery); //Sets initial Position to tank
 
 	UI = new UIManager();

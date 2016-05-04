@@ -154,7 +154,7 @@
     <ClCompile Include="rocket.cpp" />
     <ClCompile Include="stars.cpp" />
     <ClCompile Include="tank.cpp" />
-    <ClCompile Include="tes.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="ui.cpp" />
     <ClCompile Include="vector.cpp" />
   </ItemGroup>
