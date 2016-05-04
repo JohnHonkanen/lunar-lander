@@ -8,6 +8,7 @@ class tank : public particle
 {
 public:
 	tank();
+	~tank();
 	tank(float x, float y, float planetRadius, float tankFuel, float startPlayerAngle);
 	void drawTank();
 	void drawPlanet();

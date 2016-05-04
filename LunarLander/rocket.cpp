@@ -4,7 +4,14 @@ Rocket::Rocket()
 {
 
 }
-
+/*
+	Constructor
+	@param x	X coordinate
+	@param y	Y cooridinate
+	@param f	Fuel
+	@param a	Acceleration Speed
+	@param ms	Max Speed
+*/
 Rocket::Rocket(float x, float y, float f, float a, float ms)
 {
 	position = vector(x, y);
@@ -22,7 +29,11 @@ Rocket::Rocket(float x, float y, float f, float a, float ms)
 Rocket::~Rocket()
 {
 }
-//Keyboard Event
+/*
+	Keyboard Control Event
+	@param k	Key that was pressed
+	@param pressed	Keydown(true) or KeyUp(false)	
+*/
 void Rocket::controlEvent(unsigned char k, bool pressed)
 {
 	if (pressed)
@@ -77,7 +88,9 @@ void Rocket::controlEvent(unsigned char k, bool pressed)
 		}
 	}
 }
-//Drawing our Rocket and Flame Thrusters
+/*
+	Draw our Rocket and Thrusters
+*/
 void Rocket::draw()
 {
 	float flameRad = 20;
@@ -99,14 +112,17 @@ void Rocket::draw()
 	}
 }
 
-//Pointing our Arrow Indicator the particle
-
-
+/*
+	Accelerate our Particle towards a Direction using Vector
+	@param accel	Vector with Magnitude and Angle
+*/
 void Rocket::accelerate(vector accel)
 {
 	velocity.addTo(accel);
 }
-//Updating our Rocket's Velocity Via Input from Control Event
+/*
+	Update Velocity Magnitude and Angle Based on Controls
+*/
 void Rocket::updateVelocity()
 {
 	if (turningLeft) {
@@ -153,12 +169,16 @@ void Rocket::updateVelocity()
 	}
 	accelerate(thrust);
 }
-//Update our Position
+/*
+	Update Our Position on Screen
+*/
 void Rocket::updatePosition()
 {
 	position.addTo(velocity);
 }
-//Update Position based on Velocity
+/*
+	Run Update Functions and Set Locks and Win condition
+*/
 void Rocket::update()
 {
 	if (shot)
@@ -181,12 +201,20 @@ void Rocket::update()
 		updatePosition();
 	}
 }
-//Update Our Check for Collision
+/*
+	Checks Collision with a particle
+	@param p	Particle
+	@param isTarget	if Win Condition
+*/
 void Rocket::update(particle p, bool isTarget)
 {
 	collision(p, facingAngle, isTarget);
 }
 
+/*
+	Attach our Rocket to Tank
+	@param t	Tank to attach to
+*/
 void Rocket::follow(tank t)
 {
 	position.setX((60) * cos(t.getInverseCannonAngle()) + t.cannonPosition.getX());
@@ -194,40 +222,67 @@ void Rocket::follow(tank t)
 	setFacingAngle(t.getInverseCannonAngle() - (M_PI / 2));
 }
 
+/*
+	Get Fuel Value
+	@return Fuel Value
+*/
 float Rocket::getFuel()
 {
 	return fuel;
 }
 
+/*
+	Set Fuel Value
+	@param f Fuel Value
+*/
 void Rocket::setFuel(float f)
 {
 	fuel = f;
 }
-
+/*
+	Get Velocity Length/Magnitude/Speed
+	@return Magnitude
+*/
 float Rocket::getVelocity()
 {
 	return velocity.getLength();
 }
-
+/*
+	Get Velocity Angle
+	@return Angle
+*/
 float Rocket::getVelocityAngle()
 {
 	return velocity.getAngle();
 }
-
+/*
+	Check Dampeners on or off
+	@return True or False
+*/
 bool Rocket::checkDampeners()
 {
 	return dampeners;
 }
-
+/*
+	Check Crash Value
+	@return True or False
+*/
 bool Rocket::checkCrashed()
 {
 	return crashed;
 }
+/*
+	Check Landed Value
+	@return True or False
+*/
 bool Rocket::checkLanded()
 {
 	return landed;
 }
-
+/*
+	Set Facing Angle of Rocket
+	@param angle	Angle in Radians
+*/
 void Rocket::setFacingAngle(float angle) 
 {
 
