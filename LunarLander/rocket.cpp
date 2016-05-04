@@ -144,8 +144,8 @@ void Rocket::updateVelocity()
 		}
 		else if (deacclerating)
 		{
-			fuel -= 0.1;
-			thrust.setLength(-acceleration);
+			fuel -= 0.01;
+			thrust.setLength(-acceleration/10);
 
 		}
 		else

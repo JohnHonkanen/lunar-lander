@@ -149,7 +149,7 @@ void particle::checkBackCollision(particle col, float a, bool isTarget)
 	float backAngle1 = frontAngle + M_PI;
 	float backAngle2 = frontAngle - M_PI;
 
-	if (velocity.getLength() < 6)
+	if (velocity.getLength() < 20)
 	{
 		if (backAngle1 < angle + 0.6 && backAngle1 > angle - 0.6)
 		{

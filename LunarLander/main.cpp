@@ -89,7 +89,6 @@ void renderScene() {
 	{
 		vector color;
 		vector UIFuel = vector(player.position.getX() + width * zoom / 2 - 50, player.position.getY() + height * zoom / 2 - 50);
-		std::cout << UIFuel.getX() << "||" << UIFuel.getY() << std::endl;
 		if (!artillery.getLock())
 		{
 			if (artillery.getFuel() > 60)
@@ -202,7 +201,7 @@ void idle(int value)
 					AdjPlayerAngle = playerAngle - (M_PI * 2) * turns;
 				}
 			}
-			player.setVelocity(50, (M_PI/2) - AdjPlayerAngle + cannonAngle);
+			player.setVelocity(20, (M_PI/2) - AdjPlayerAngle + cannonAngle);
 		}
 		artillery.setRocketRelease(true);
 	}
@@ -284,7 +283,7 @@ int main(int argc, char** argv)
 
 	artillery = tank(random(-width * 2, width * 2), random(-height * 2, height * 2), 1500, 100, randomAngle);
 
-	player = Rocket(0,0, 100, 1.0f, 10);
+	player = Rocket(0,0, 100, 0.5f, 10);
 	player.follow(artillery); //Sets initial Position to tank
 
 	UI = new UIManager();
