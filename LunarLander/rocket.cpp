@@ -126,11 +126,11 @@ void Rocket::accelerate(vector accel)
 void Rocket::updateVelocity()
 {
 	if (turningLeft) {
-		facingAngle += 0.05;
+		facingAngle -= 0.05;
 	}
 
 	if (turningRight) {
-		facingAngle -= 0.05;
+		facingAngle += 0.05;
 	}
 
 	thrust.setAngle(-facingAngle);
