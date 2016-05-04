@@ -17,7 +17,7 @@
 float height, width;
 
 Rocket player;
-const int numMoons = 100; // Number of moons to generate. 
+const int numMoons = 50; // Number of moons to generate. 
 tank artillery;
 
 UIManager *UI;
@@ -295,7 +295,7 @@ int main(int argc, char** argv)
 {
 	// Starting game window size.
 
-	height = 1000;
+	height = 960;
 	width = 1000;
 
 	//Initialize Object Data
@@ -346,7 +346,7 @@ int main(int argc, char** argv)
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-	//glutInitWindowPosition(100, 100);
+	glutInitWindowPosition(0,0);
 	glutInitWindowSize(width, height);
 	glutCreateWindow("IchyMoo the LunarLunar");
 	glEnable(GL_BLEND);

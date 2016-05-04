@@ -150,14 +150,16 @@ void particle::checkBackCollision(particle col, float a, bool isTarget)
 	float backAngle1 = frontAngle + M_PI;
 	float backAngle2 = frontAngle - M_PI;
 
-	if (velocity.getLength() < 20)
+	std::cout << angle << "||" << frontAngle << "||" << backAngle1 << "||" << backAngle2 << "||" << velocity.getLength() << std::endl;
+
+	if (velocity.getLength() < 30)
 	{
-		if (backAngle1 < angle + 0.6 && backAngle1 > angle - 0.6)
+		if (backAngle1 < angle + 0.8 && backAngle1 > angle - 0.8)
 		{
 			if (isTarget)
 				landed = true;
 		}
-		else if (backAngle2 < angle + 0.6 && backAngle2 > angle - 0.6)
+		else if (backAngle2 < angle + 0.8 && backAngle2 > angle - 0.8)
 		{
 			if (isTarget)
 				landed = true;
