@@ -31,7 +31,7 @@ Star * star[numStars];
 int seed;
 int moonLand;
 
-float zoom = 50; // Zoom of player camera from origin object - the cannon/Lunar-lander.
+float zoom = 1.5; // Zoom of player camera from origin object - the cannon/Lunar-lander.
 bool showUI = true; //Disable/Enable UI for Testing Purpose
 float distanceFromStartMult = 4; //Distance of any moons from starting area. 
 
