@@ -4,32 +4,54 @@
 particle::particle()
 {
 }
-particle::particle(float x, float y, float speed, float direction, float grav)
+/*
+	Particle Constructor
+	@param x	X coordinate on Screen
+	@param y	Y Coordinate on Screen
+	@param s	Speed of our Particle
+	@param d	Directional Angle of our Particle
+	@param grav	Gravitation Pull in Y direction
+*/
+particle::particle(float x, float y, float s, float d, float grav)
 {
 	position = vector(x, y);
 	velocity = vector(0, 0);
-	velocity.setLength(speed);
-	velocity.setAngle(direction);
+	velocity.setLength(s);
+	velocity.setAngle(d);
 	gravity = vector(0, grav || 0);
 	color = vector(0.5f, 0.5f, 0.5f);
 }
-
+/*
+	Accelerate our Particle towards a Direction using Vector
+	@param accel	Vector with Magnitude and Angle
+*/
 void particle::accelerate(vector accel)
 {
 	velocity.addTo(accel);
 }
 
+/*
+	Update Physics and Screen Location to our Particle
+*/
 void particle::update()
 {
 	velocity.addTo(gravity);
 	position.addTo(velocity);
 }
-
+/*
+	Calculate the Angle from this particle to another particle
+	@param p2	Particle to caculate angle to
+	@return		Angle to our Particle p2
+*/
 float particle::angleTo(particle p2)
 {
 	return -atan2f(p2.position.getY() - position.getY(), p2.position.getX() - position.getX())+ M_PI /2;
 }
-
+/*
+	Calculate the Distance from this particle to another particle
+	@param p2	Particle to caculate distance to
+	@return		Distance to our Particle p2
+*/
 float particle::distanceTo(particle p2)
 {
 	float dx = p2.position.getX() - position.getX();
@@ -37,7 +59,10 @@ float particle::distanceTo(particle p2)
 
 	return sqrt(dx*dx + dy*dy);
 }
-//Gravitational Pull towards Particle
+/*
+	Calculate and Add Gravitational pull to our Velocity based on Mass of a Particle to this Particle using Vectors
+	@param p2	Particle to Gravitate to.
+*/
 void particle::gravitateTo(particle p2)
 {
 	vector grav = vector(0, 0);
@@ -50,7 +75,9 @@ void particle::gravitateTo(particle p2)
 		velocity.addTo(grav); 
 
 }
-
+/*
+	Draw a circle to represent our particle
+*/
 void particle::draw()
 {
 	glPointSize(0.1);
@@ -63,7 +90,11 @@ void particle::draw()
 		glVertex2f(radius * cos(angle + rotation) + position.getX(), radius * sin(angle + rotation) + position.getY());
 	glEnd();
 }
-//Check if Colliding
+/*
+	Check if a particle is colliding to this particle (Circle - Circle Collision)
+	@param col	Particle to check collision against
+	@return		Colliding Results, True or False.
+*/
 bool particle::checkCollision(particle col)
 {
 	float colDist = col.colRadius + colRadius;
@@ -73,7 +104,11 @@ bool particle::checkCollision(particle col)
 		return true;
 	return false;
 }
-//Find out where our Collision Point is
+/*
+	Find our Point of Collision
+	@param col	Particle to check our Collision against
+	@return		Collision Point between our two Particles	
+*/
 vector particle::calculateCollisionPoint(particle col)
 {
 	float collisionX = ((position.getX() * col.colRadius) + (col.position.getX() * colRadius))/ (colRadius + col.colRadius);
@@ -83,7 +118,13 @@ vector particle::calculateCollisionPoint(particle col)
 
 	return collisionPoint;
 }
-
+/*
+	Check to see if we are colliding with the Back of the Particle
+	Win and Lose Condition for the Game
+	@param col	Particle to check collision against
+	@param a	Current Facing Angle of Particle (Rocket Class)
+	@param isTarget	Win Condition of our Game. if True.
+*/
 void particle::checkBackCollision(particle col, float a, bool isTarget)
 {
 	float dx = position.getX() - col.position.getX();
@@ -129,7 +170,12 @@ void particle::checkBackCollision(particle col, float a, bool isTarget)
 	}
 }
 
-//Check our Collision and Apply proper Constraints
+/*
+	Apply our Collision and Collision check for win Conditions
+	@param col	Particle to check Collision with
+	@param a	Current Facing Angle of Particle (Rocket Class) for checkBackCollision
+	@param isTarget	Win Condition of our Game. if True. for checkBackCollision
+*/
 void particle::collision(particle col, float a, bool isTarget)
 {
 	vector collisionPoint = calculateCollisionPoint(col);
@@ -161,22 +207,36 @@ void particle::collision(particle col, float a, bool isTarget)
 		}
 	}
 }
-//Set Color of our Particle
+/*
+	Set the Color of our Particle
+	@param color	3D Vector to set our Color in RGB
+*/
 void particle::setColor(vector color)
 {
 	this->color = color;
 }
-
+/*
+	Lock our Particle from Physics (Use for Derived Classes)
+	@param lock	Set True or False
+*/
 void particle::setLock(bool lock)
 {
 	locked = lock;
 }
-
+/*
+	Check if our Particle is Locked from Physics
+	@return True or False
+*/
 bool particle::getLock()
 {
 	return locked;
 }
 
+/*
+	Calculate and Adjust the Angle to our Grid to Target
+	@param p	Particle to check Angle with
+	@return		Adjusted Angle to Target
+*/
 float particle::getAngleToTarget(particle p)
 {
 	float angle = angleTo(p);
@@ -184,15 +244,16 @@ float particle::getAngleToTarget(particle p)
 	return angleToTarget;
 }
 
-particle::~particle()
-{
-}
-
+/*
+	Set Velocity for our particle
+	@param m	Magnitude of our Velocity Vector
+	@param a	Angle of our Velocity Vector
+*/
 void particle::setVelocity(float m, float a)
 {
-	std::cout << "Angle in VELO: " << a << std::endl;
 	velocity.setLength(m);
 	velocity.setAngle(a);
-	std::cout << "Angle After VELO: " << velocity.getAngle() << std::endl;
-
+}
+particle::~particle()
+{
 }

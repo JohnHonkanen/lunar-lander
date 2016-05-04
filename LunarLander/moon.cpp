@@ -4,17 +4,29 @@ int randR(int min, int max)
 	return rand() % ((max + 1) - min) + min;
 }
 
-
+/*
+	Base Constructor
+*/
 Moon::Moon()
 {
 
 }
-Moon::Moon(vector pos, float r, float speed, float direction, float grav, int numVerts)
+/*
+	Constructor
+	@param pos	Vector position of our Moon object
+	@param r	Radius of our Moon Object
+	@param s	Speed of our Moon
+	@param d	Directional Angle of Our Moon to move at
+	@param grav	Downward Speed to affect our Moon
+	@param numVerts Number of Vertices used to draw our Moon
+*/
+
+Moon::Moon(vector pos, float r, float s, float d, float grav, int numVerts)
 {
 	position = pos;
 	velocity = vector(0, 0);
-	velocity.setLength(speed);
-	velocity.setAngle(direction);
+	velocity.setLength(s);
+	velocity.setAngle(d);
 	gravity = vector(0, grav || 0);
 	color = vector(0.5f, 0.5f, 0.5f); //Setting the Base Color of our Moon
 	numVertices = numVerts;
@@ -37,7 +49,9 @@ Moon::Moon(vector pos, float r, float speed, float direction, float grav, int nu
 		i++;
 	}
 }
-
+/*
+	Draws and Display our Moon Object
+*/
 void Moon::draw()
 {
 	glPointSize(0.1);
@@ -49,7 +63,9 @@ void Moon::draw()
 	}
 	glEnd();
 }
-
+/*
+	Deconstructor
+*/
 Moon::~Moon()
 {
 }
