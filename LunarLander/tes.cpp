@@ -17,7 +17,7 @@
 float height, width;
 
 Rocket player;
-const int numMoons = 100;
+const int numMoons = 100; // Number of moons to generate. 
 tank artillery;
 
 UIManager *UI;
@@ -25,15 +25,15 @@ UIManager *UI;
 Moon moons[numMoons];
 vector moonLocation[numMoons];
 
-const int numStars = 10000;
+const int numStars = 10000; // Number of Stars to generate. 
 Star * star[numStars];
 
 int seed;
 int moonLand;
 
-float zoom = 1.5;
+float zoom = 1.5; // Zoom of player camera from origin object - the cannon/Lunar-lander.
 bool showUI = true; //Disable/Enable UI for Testing Purpose
-float distanceFromStartMult = 3;
+float distanceFromStartMult = 3; //Distance of any moons from starting area. 
 
 void renderScene() {
 
@@ -45,7 +45,7 @@ void renderScene() {
 		player.position.getX()+width*zoom/2, player.position.getY() - height*zoom/2,10,
 		0,1,0);
 
-	//Render Scene and Draw
+	//Render Scene and Draw the stars and moon. 
 	for (int i = 0; i < numStars; i++)
 	{
 		star[i]->draw();
@@ -69,10 +69,10 @@ void renderScene() {
 		}
 	}
 	
-	// Draw Tank Components
+	// Draw and display all cannon components
 	artillery.draw();
 
-	// The actual rocket
+	// Draw and display Lunar-lander
 	if (artillery.getLock())
 	{
 		player.draw();
@@ -83,7 +83,7 @@ void renderScene() {
 		UI->DrawPointers(50, player.getAngleToTarget(moons[moonLand]), player.position, vector(0.0f, 0.0f, 1.0f), vector(1.0f, 1.0f, 1.0f), player.distanceTo(moons[moonLand]) - moons[moonLand].radius - player.radius);
 	}
 	
-	//Main UI Draws
+	//Main UI Draw and display.
 
 	if (showUI)
 	{
@@ -178,7 +178,7 @@ void idle(int value)
 
 	glutTimerFunc(41, idle, 0);
 
-	// LunarLander Shooting
+	// Lunar-lander Shooting from cannon.
 
 	if (artillery.getLock())
 	{
@@ -206,7 +206,7 @@ void idle(int value)
 		artillery.setRocketRelease(true);
 	}
 
-	/* Calculate Physics for Frame */
+	//Calculate Physics for each frame
 
 	for (int i = 0; i < numStars; i++)
 	{
@@ -238,6 +238,8 @@ void idle(int value)
 	glutPostRedisplay();
 }
 
+// Re-Size of game window. 
+
 void reshape(int x, int y)
 {
 	width = x;
@@ -248,29 +250,36 @@ void reshape(int x, int y)
 	gluOrtho2D(0, width*zoom, 0, height*zoom);
 }
 
+// Key pressed
+
 void keyDown(unsigned char key, int x, int y)
 {
 	player.controlEvent(key, true);
 	artillery.controlEvent(key, true);
 }
 
+// Key lifted
+
 void keyUp(unsigned char key, int x, int y) {
 	player.controlEvent(key, false);
 	artillery.controlEvent(key, false);
 }
 
+// Start of main function.
+
 int main(int argc, char** argv)
 {
+	// Starting game window size.
+
 	height = 1000;
 	width = 1000;
+
 	//Initialize Object Data
 
 	srand(time(NULL));
 
 	// Initialize Tank
 	float randomAngle = (float)random(0, 200) / 10;
-
-	std::cout << randomAngle << std::endl;
 
 	artillery = tank(random(-width * 2, width * 2), random(-height * 2, height * 2), 1500, 100, randomAngle);
 
@@ -280,8 +289,8 @@ int main(int argc, char** argv)
 	UI = new UIManager();
 
 	moonLand = random(0, numMoons-1);
-	seed = random(-123456, 123456);
-	int sizeOfMoonLoc = -1;
+	seed = random(-123456, 123456); // Level seed to randomize each level creation between min and max value. 
+	int sizeOfMoonLoc = -1; 
 	artillery.colRadius = artillery.radius * distanceFromStartMult;
 	for (int i = 0; i < numMoons; i++)
 	{
@@ -326,3 +335,5 @@ int main(int argc, char** argv)
 	glutTimerFunc(41,idle,0);
 	glutMainLoop();
 }
+
+// End of main.

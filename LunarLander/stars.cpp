@@ -1,9 +1,21 @@
 #include "stars.h"
 
+/*
+	Base Constructor
+*/
+
 Star::Star()
 {
 
 }
+
+/*
+	Constructor
+	@param position - vector position of Star
+	@param color - 3D vector color of star RGB
+	@param radius - radius of star
+	@param startGlow - color brightness of star
+*/
 
 Star::Star(vector position, vector color, float radius, float startGlow)
 {
@@ -12,6 +24,10 @@ Star::Star(vector position, vector color, float radius, float startGlow)
 	this->radius = radius;
 	glowAlphaSin = startGlow/100;
 }
+
+/*
+	Function to set star brightness as it glows.
+*/
 
 void Star::update()
 {
@@ -22,6 +38,10 @@ void Star::update()
 	}
 	glowAlphaSin += 0.05;
 }
+
+/*
+	Draw and display star in game space.
+*/
 
 void Star::draw()
 {
@@ -44,6 +64,12 @@ void Star::draw()
 
 
 }
+
+/*
+Deconstructor
+*/
+
 Star::~Star()
 {
+
 }
