@@ -31,14 +31,18 @@ Star * star[numStars];
 int seed;
 int moonLand;
 
+float zoom = 1.5;
+bool showUI = true; //Disable/Enable UI for Testing Purpose
+float distanceFromStartMult = 3;
+
 void renderScene() {
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	//Camera Follow
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(player.position.getX()+width/2, player.position.getY()-height/2, 0,
-		player.position.getX()+width/2, player.position.getY() - height/2,10,
+	gluLookAt(player.position.getX()+width*zoom/2, player.position.getY()-height*zoom/2, 0,
+		player.position.getX()+width*zoom/2, player.position.getY() - height*zoom/2,10,
 		0,1,0);
 
 	//Render Scene and Draw
@@ -80,85 +84,89 @@ void renderScene() {
 	}
 	
 	//Main UI Draws
-	vector color;
-	vector UIFuel = vector(player.position.getX() + width / 2 - 50, player.position.getY() + height / 2 - 50);
-	if(!artillery.getLock())
-	{
-		if (artillery.getFuel() > 60)
-		{
-			color = vector(0.0f, 1.0f, 0.0f);
-		}
 
-		else if (player.getFuel() > 30 || player.getFuel() < 60)
-		{
-			color = vector(1.0f * (float)player.getFuel(), 1.0f * (float)player.getFuel() / 100, 0.0f);
-		}
-		else
-		{
-			color = vector(1.0f * (float)player.getFuel(), 0.0f, 0.0f);
-		}
-		UI->drawCircle(UIFuel.getX(), UIFuel.getY(), 32, 50, color, false, 5);
-		UI->displayFloat(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() + 15, UIFuel.getY() - 5, round(artillery.getFuel()));
-		UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() + 15, UIFuel.getY() - 25, "Litres");
-	}
-	else
+	if (showUI)
 	{
-		if (player.getFuel() > 60)
+		vector color;
+		vector UIFuel = vector(player.position.getX() + width * zoom / 2 - 50, player.position.getY() + height * zoom / 2 - 50);
+		std::cout << UIFuel.getX() << "||" << UIFuel.getY() << std::endl;
+		if (!artillery.getLock())
 		{
-			color = vector(0.0f, 1.0f, 0.0f);
-		}
+			if (artillery.getFuel() > 60)
+			{
+				color = vector(0.0f, 1.0f, 0.0f);
+			}
 
-		else if (player.getFuel() > 30 || player.getFuel() < 60)
-		{
-			color = vector(1.0f * (float)player.getFuel(), 1.0f * (float)player.getFuel() / 100, 0.0f);
+			else if (player.getFuel() > 30 || player.getFuel() < 60)
+			{
+				color = vector(1.0f * (float)player.getFuel(), 1.0f * (float)player.getFuel() / 100, 0.0f);
+			}
+			else
+			{
+				color = vector(1.0f * (float)player.getFuel(), 0.0f, 0.0f);
+			}
+			UI->drawCircle(UIFuel.getX(), UIFuel.getY(), 32, 50, color, false, 5);
+			UI->displayFloat(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() + 15, UIFuel.getY() - 5, round(artillery.getFuel()));
+			UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() + 15, UIFuel.getY() - 25, "Litres");
 		}
 		else
 		{
-			color = vector(1.0f * (float)player.getFuel(), 0.0f, 0.0f);
+			if (player.getFuel() > 60)
+			{
+				color = vector(0.0f, 1.0f, 0.0f);
+			}
+
+			else if (player.getFuel() > 30 || player.getFuel() < 60)
+			{
+				color = vector(1.0f * (float)player.getFuel(), 1.0f * (float)player.getFuel() / 100, 0.0f);
+			}
+			else
+			{
+				color = vector(1.0f * (float)player.getFuel(), 0.0f, 0.0f);
+			}
+			UI->drawCircle(UIFuel.getX(), UIFuel.getY(), 32, 50, color, false, 5);
+			UI->displayFloat(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() + (15 * zoom), UIFuel.getY() - (5 * zoom), round(player.getFuel()));
+			UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() + (15 * zoom), UIFuel.getY() - (25 * zoom), "Litres");
 		}
-		vector UIFuel = vector(player.position.getX() + width / 2 - 50, player.position.getY() + height / 2 - 50);
-		UI->drawCircle(UIFuel.getX(), UIFuel.getY(), 32, 50, color, false, 5);
-		UI->displayFloat(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() + 15, UIFuel.getY() - 5, round(player.getFuel()));
-		UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() + 15, UIFuel.getY() - 25, "Litres");
-	}
-	glColor3f(0.0f, 1.0f, 0.0f);
-	UI->drawCircle(UIFuel.getX() - 0, UIFuel.getY() - 80, 32, 25, vector(0,1,0), false, 3);
-	UI->drawArrow(UIFuel.getX() - 0, UIFuel.getY() - 80, 20, player.getVelocityAngle(), vector(0,1,0));
-	UI->displayFloat(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() + 30, UIFuel.getY() - 125, (float)round(player.getVelocity()*100));
-	if (player.getVelocity() < 10)
-	{
-		UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() + 0, UIFuel.getY() - 125, "KM/H");
-	}
-	else if (player.getVelocity() > 10)
-	{
-		UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - 15, UIFuel.getY() - 125, "KM/H");
-	}
+		glColor3f(0.0f, 1.0f, 0.0f);
+		UI->drawCircle(UIFuel.getX() - (0 * zoom), UIFuel.getY() - (80 * zoom), 32, 25, vector(0, 1, 0), false, 3);
+		UI->drawArrow(UIFuel.getX() - (0 *zoom), UIFuel.getY() - (80 * zoom), 20, player.getVelocityAngle(), vector(0, 1, 0));
+		UI->displayFloat(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() + (30 * zoom), UIFuel.getY() - (125 * zoom), (float)round(player.getVelocity() * 100));
+		if (player.getVelocity() < 10)
+		{
+			UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() -(5*zoom), UIFuel.getY() - (125 * zoom), "KM/H");
+		}
+		else if (player.getVelocity() > 10)
+		{
+			UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - (15*zoom), UIFuel.getY() - (125 * zoom), "KM/H");
+		}
 
-	UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - 80 , UIFuel.getY()+ 20, "Dampening System (E)");
-	if (player.checkDampeners())
-	{
-		
-		UI->drawString(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() - 80, UIFuel.getY(), "Online");
-	}
-	else
-	{
-		glColor3f(1.0f, 0, 0);
-		UI->drawString(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() - 80, UIFuel.getY(), "Offline");
-	}
+		UI->drawString(GLUT_BITMAP_HELVETICA_12, UIFuel.getX() - (80*zoom), UIFuel.getY() + (20*zoom), "Dampening System (E)");
+		if (player.checkDampeners())
+		{
 
-	if (player.checkCrashed())
-	{
-		glColor3f(1.0f, 0, 0);
-		UI->drawString(GLUT_BITMAP_HELVETICA_18, player.position.getX() + 10, player.position.getY() + 35, "Crashed");
-	}
+			UI->drawString(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() - (80 * zoom), UIFuel.getY(), "Online");
+		}
+		else
+		{
+			glColor3f(1.0f, 0, 0);
+			UI->drawString(GLUT_BITMAP_HELVETICA_18, UIFuel.getX() - (80 * zoom), UIFuel.getY(), "Offline");
+		}
 
-	else if (player.checkLanded())
-	{
-		glColor3f(0, 1.0f, 0);
-		UI->drawString(GLUT_BITMAP_HELVETICA_18, player.position.getX() + 10, player.position.getY() + 35, "Landed");
-	}
+		if (player.checkCrashed())
+		{
+			glColor3f(1.0f, 0, 0);
+			UI->drawString(GLUT_BITMAP_HELVETICA_18, player.position.getX() + 10, player.position.getY() + 35, "Crashed");
+		}
 
-	//End of UI Draws
+		else if (player.checkLanded())
+		{
+			glColor3f(0, 1.0f, 0);
+			UI->drawString(GLUT_BITMAP_HELVETICA_18, player.position.getX() + 10, player.position.getY() + 35, "Landed");
+		}
+
+		//End of UI Draws 
+	}
 	//End of Render Scene
 	glutSwapBuffers();
 
@@ -237,7 +245,7 @@ void reshape(int x, int y)
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(0, width, 0, height);
+	gluOrtho2D(0, width*zoom, 0, height*zoom);
 }
 
 void keyDown(unsigned char key, int x, int y)
@@ -274,7 +282,7 @@ int main(int argc, char** argv)
 	moonLand = random(0, numMoons-1);
 	seed = random(-123456, 123456);
 	int sizeOfMoonLoc = -1;
-	
+	artillery.colRadius = artillery.radius * distanceFromStartMult;
 	for (int i = 0; i < numMoons; i++)
 	{
 		sizeOfMoonLoc++;
@@ -291,15 +299,16 @@ int main(int argc, char** argv)
 					moonLocation[i] = vector(random(-width * 16, width * 16), random(-height * 16, height * 16));
 					moons[i] = Moon(moonLocation[i], moonRadius, 0, 0, 0, round(moonRadius / 10));
 				}
+				
 			}
 		}
 	}
+	artillery.colRadius = artillery.radius / distanceFromStartMult;
 	for (int i = 0; i < numStars; i++)
 	{
-		star[i] = new Star(vector(random(-width*20,width*20), random(-height*20,height*20)), vector(0.8f, 0.8f, 0.0f), random(3, 15), random(0,100));
+		star[i] = new Star(vector(random(-width*16,width*16), random(-height*16,height*16)), vector(0.8f, 0.8f, 0.0f), random(3, 15), random(0,100));
 	}
 
-	
 	//End of Initialization
 
 	glutInit(&argc, argv);
