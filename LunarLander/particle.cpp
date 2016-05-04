@@ -106,9 +106,14 @@ void particle::checkBackCollision(particle col, float a, bool isTarget)
 	float backAngle1 = frontAngle + M_PI;
 	float backAngle2 = frontAngle - M_PI;
 
-	if (velocity.getLength() < 3)
+	if (velocity.getLength() < 6)
 	{
 		if (backAngle1 < angle + 0.6 && backAngle1 > angle - 0.6)
+		{
+			if (isTarget)
+				landed = true;
+		}
+		else if (backAngle2 < angle + 0.6 && backAngle2 > angle - 0.6)
 		{
 			if (isTarget)
 				landed = true;
@@ -123,6 +128,7 @@ void particle::checkBackCollision(particle col, float a, bool isTarget)
 		crashed = true;
 	}
 }
+
 //Check our Collision and Apply proper Constraints
 void particle::collision(particle col, float a, bool isTarget)
 {
@@ -180,4 +186,10 @@ float particle::getAngleToTarget(particle p)
 
 particle::~particle()
 {
+}
+
+void particle::setVelocity(float m, float a)
+{
+	velocity.setAngle(a);
+	velocity.setLength(m);
 }

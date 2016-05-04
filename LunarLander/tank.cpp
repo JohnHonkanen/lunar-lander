@@ -55,7 +55,6 @@ void tank::drawPlanet()
 		glVertex2f(radius * cos(angle) + position.getX(), radius * sin(angle) + position.getY());
 	}
 		
-	
 	glEnd();
 
 	glLineWidth(0.1);
@@ -81,11 +80,11 @@ void tank::drawCannon()
 	float cannonX = (radius + 30) * cos(playerAngle) + position.getX();
 	float cannonY = (radius + 30) * sin(playerAngle) + position.getY();
 
+	cannonPosition = vector(cannonX, cannonY);
+
 	int NPoints = 32;
 	float TWOPI = M_PI * 2;
 	float steps = TWOPI / NPoints;
-
-
 
 // Draw Tank Circular Cannon Base
 
@@ -109,20 +108,23 @@ void tank::drawCannon()
 
 // Draw Tank Barrel
 
+	float correctionAngle = 0;
+	playerAngle = 0;
+	
 	glColor3f(0.1, 0.1, 0.1);
 	glBegin(GL_POLYGON);
-	glVertex2f(20 * cos(M_PI * 1.65 + playerAngle + cannonRotate) + cannonX, 20 * sin(M_PI * 1.65 + playerAngle + cannonRotate) + cannonY);
-	glVertex2f(60 * cos(M_PI * 1.925 + playerAngle + cannonRotate) + cannonX, 60 * sin(M_PI * 1.925 + playerAngle + cannonRotate) + cannonY);
-	glVertex2f(60 * cos(M_PI * 0.075 + playerAngle + cannonRotate) + cannonX, 60 * sin(M_PI * 0.075 + playerAngle + cannonRotate) + cannonY);
-	glVertex2f(20 * cos(M_PI * 0.35 + playerAngle + cannonRotate) + cannonX, 20 * sin(M_PI * 0.35 + playerAngle + cannonRotate) + cannonY);
+	glVertex2f(20 * cos(M_PI * 1.65 + playerAngle - cannonRotate - (correctionAngle)) + cannonX, 20 * sin(M_PI * 1.65 + playerAngle - cannonRotate - (correctionAngle)) + cannonY);
+	glVertex2f(60 * cos(M_PI * 1.925 + playerAngle - cannonRotate - (correctionAngle)) + cannonX, 60 * sin(M_PI * 1.925 + playerAngle - cannonRotate - (correctionAngle)) + cannonY);
+	glVertex2f(60 * cos(M_PI * 0.075 + playerAngle - cannonRotate - (correctionAngle)) + cannonX, 60 * sin(M_PI * 0.075 + playerAngle - cannonRotate - (correctionAngle)) + cannonY);
+	glVertex2f(20 * cos(M_PI * 0.35 + playerAngle - cannonRotate - (correctionAngle)) + cannonX, 20 * sin(M_PI * 0.35 + playerAngle - cannonRotate - (correctionAngle)) + cannonY);
 	glEnd();
 
 	glColor3f(0.8, 0.8, 0.8);
 	glBegin(GL_LINE_LOOP);
-	glVertex2f(20 * cos(M_PI * 1.65 + playerAngle + cannonRotate) + cannonX, 20 * sin(M_PI * 1.65 + playerAngle + cannonRotate) + cannonY);
-	glVertex2f(60 * cos(M_PI * 1.925 + playerAngle + cannonRotate) + cannonX, 60 * sin(M_PI * 1.925 + playerAngle + cannonRotate) + cannonY);
-	glVertex2f(60 * cos(M_PI * 0.075 + playerAngle + cannonRotate) + cannonX, 60 * sin(M_PI * 0.075 + playerAngle + cannonRotate) + cannonY);
-	glVertex2f(20 * cos(M_PI * 0.35 + playerAngle + cannonRotate) + cannonX, 20 * sin(M_PI * 0.35 + playerAngle + cannonRotate) + cannonY);
+	glVertex2f(20 * cos(M_PI * 1.65 + playerAngle - cannonRotate - (correctionAngle)) + cannonX, 20 * sin(M_PI * 1.65 + playerAngle - cannonRotate - (correctionAngle)) + cannonY);
+	glVertex2f(60 * cos(M_PI * 1.925 + playerAngle - cannonRotate - (correctionAngle)) + cannonX, 60 * sin(M_PI * 1.925 + playerAngle - cannonRotate - (correctionAngle)) + cannonY);
+	glVertex2f(60 * cos(M_PI * 0.075 + playerAngle - cannonRotate - (correctionAngle)) + cannonX, 60 * sin(M_PI * 0.075 + playerAngle - cannonRotate - (correctionAngle)) + cannonY);
+	glVertex2f(20 * cos(M_PI * 0.35 + playerAngle - cannonRotate - (correctionAngle)) + cannonX, 20 * sin(M_PI * 0.35 + playerAngle - cannonRotate - (correctionAngle)) + cannonY);
 	glEnd();
 }
 
@@ -229,4 +231,29 @@ void tank::controlEvent(unsigned char k, bool pressed)
 float tank::getFuel()
 {
 	return tankFuel;
+}
+
+bool tank::checkRocketRelease()
+{
+	return releasedRocket;
+}
+
+void tank::setRocketRelease(bool r)
+{
+	releasedRocket = r;
+}
+
+float tank::getCannonAngle()
+{
+	return playerAngle + cannonRotate;
+}
+
+float tank::getInverseCannonAngle()
+{
+	return playerAngle - cannonRotate;
+}
+
+float tank::getCannonRotate()
+{
+	return cannonRotate;
 }

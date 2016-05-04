@@ -142,6 +142,14 @@ float vector::distance(vector v2)
 	return abs(sqrt(dx*dx + dy*dy));
 }
 
+vector vector::perpendiculer2D(vector v)
+{
+	float tx = v.getX();
+	float ty = v.getY();
+	return vector(-ty, tx);
+}
+
 vector::~vector()
 {
 }
+

@@ -20,7 +20,7 @@ Moon::Moon(vector pos, float r, float speed, float direction, float grav, int nu
 	numVertices = numVerts;
 	vertices = new vector[numVertices+1];
 	radius = r;
-	mass = radius * 1;
+	mass = radius * 100;
 	colRadius = radius;
 
 	const int NPOINTS = numVertices;
@@ -33,7 +33,6 @@ Moon::Moon(vector pos, float r, float speed, float direction, float grav, int nu
 		float randRadius = randR(radius - 20, radius + 20);
 		float x = randRadius * cos(angle) + position.getX();
 		float y = randRadius * sin(angle) + position.getY();
-		std::cout << x << "||" << y << "||" << angle <<std::endl;
 		vertices[i] = vector(x,y);
 		i++;
 	}

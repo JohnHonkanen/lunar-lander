@@ -30,6 +30,8 @@ public:
 	vector multiply(float);
 	vector divide(float);
 
+	vector perpendiculer2D(vector);
+
 	void addTo(vector);
 	void subtractBy(vector);
 	void multiplyBy(float);

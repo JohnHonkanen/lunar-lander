@@ -149,14 +149,17 @@ void renderScene() {
 	if (player.checkCrashed())
 	{
 		glColor3f(1.0f, 0, 0);
-		UI->drawString(GLUT_BITMAP_HELVETICA_18, player.position.getX(), player.position.getY(), "Crashed");
+		UI->drawString(GLUT_BITMAP_HELVETICA_18, player.position.getX() + 10, player.position.getY() + 35, "Crashed");
 	}
 
 	else if (player.checkLanded())
 	{
 		glColor3f(0, 1.0f, 0);
-		UI->drawString(GLUT_BITMAP_HELVETICA_18, player.position.getX(), player.position.getY(), "Landed");
+		UI->drawString(GLUT_BITMAP_HELVETICA_18, player.position.getX() + 10, player.position.getY() + 35, "Landed");
 	}
+
+	player.draw();
+
 	//End of UI Draws
 	//End of Render Scene
 	glutSwapBuffers();
@@ -168,7 +171,37 @@ void idle(int value)
 {
 
 	glutTimerFunc(41, idle, 0);
+
+	// LunarLander Shooting
+
+	if (artillery.getLock())
+	{
+		if (!artillery.checkRocketRelease())
+		{
+			float cannonAngle = artillery.getCannonAngle();
+			float realCannonAngle = artillery.getCannonRotate();
+
+			int turns = ceil(abs(cannonAngle) / (2 * M_PI)) - 1;
+
+			if (turns >= 1)
+			{
+				if (realCannonAngle< 0)
+				{
+					realCannonAngle = cannonAngle + (M_PI *  2) * turns;
+				}
+				else
+				{
+					realCannonAngle = cannonAngle - (M_PI * 2) * turns;
+				}
+			}
+			player.setVelocity(15, realCannonAngle);
+			std::cout << cannonAngle << "||" << player.velocity.getAngle() << "||" << realCannonAngle << std::endl;
+		}
+		artillery.setRocketRelease(true);
+	}
+
 	/* Calculate Physics for Frame */
+
 	for (int i = 0; i < numStars; i++)
 	{
 		star[i]->update();
@@ -226,9 +259,14 @@ int main(int argc, char** argv)
 	width = 1000;
 	//Initialize Object Data
 
+	srand(time(NULL));
+
 	// Initialize Tank
 	float randomAngle = (float)random(0, 200) / 10;
-	artillery = tank(random(-width * 8, width * 8), random(-height * 8, height * 8), 1500, 100, randomAngle);
+
+	std::cout << randomAngle << std::endl;
+
+	artillery = tank(random(-width * 2, width * 2), random(-height * 2, height * 2), 1500, 100, randomAngle);
 
 	player = Rocket(0,0, 100, 0.1f, 10);
 	player.follow(artillery); //Sets initial Position to tank
@@ -238,11 +276,11 @@ int main(int argc, char** argv)
 	moonLand = random(0, numMoons-1);
 	seed = random(-123456, 123456);
 	int sizeOfMoonLoc = -1;
-	srand(time(NULL));
+	
 	for (int i = 0; i < numMoons; i++)
 	{
 		sizeOfMoonLoc++;
-		moonLocation[i] = vector(random(-width * 24, width * 24), random(-height * 24, height * 24));
+		moonLocation[i] = vector(random(-width * 16, width * 16), random(-height * 16, height * 16));
 		float moonRadius = random(300, 500);
 		moons[i] = Moon(moonLocation[i], moonRadius, 0, 0, 0, 60);
 
@@ -252,7 +290,7 @@ int main(int argc, char** argv)
 			{
 				while (moons[i].checkCollision(moons[z]) || moons[i].checkCollision(artillery))
 				{
-					moonLocation[i] = vector(random(-width * 24, width * 24), random(-height * 24, height * 24));
+					moonLocation[i] = vector(random(-width * 16, width * 16), random(-height * 16, height * 16));
 					moons[i] = Moon(moonLocation[i], moonRadius, 0, 0, 0, round(moonRadius / 10));
 				}
 			}
@@ -260,7 +298,7 @@ int main(int argc, char** argv)
 	}
 	for (int i = 0; i < numStars; i++)
 	{
-		star[i] = new Star(vector(random(-width*8,width*8), random(-height*8,height*8)), vector(0.8f, 0.8f, 0.0f), random(3, 15), random(0,100));
+		star[i] = new Star(vector(random(-width*20,width*20), random(-height*20,height*20)), vector(0.8f, 0.8f, 0.0f), random(3, 15), random(0,100));
 	}
 
 	

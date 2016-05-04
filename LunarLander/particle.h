@@ -20,6 +20,8 @@ public:
 	bool checkCollision(particle); //Check if Colliding
 	void setColor(vector color3D); //Set our Color using a 3D vector
 
+	void setVelocity(float magnitude, float angle);
+
 	//Locking Mechanims
 	void setLock(bool lock);
 	bool getLock();
@@ -32,6 +34,7 @@ public:
 	float mass = 1; // Mass for our Gravitational Pull Calculation
 
 	vector position; //Position on Screen
+	vector velocity;
 
 protected:
 	virtual void accelerate(vector);
@@ -40,7 +43,7 @@ protected:
 	vector calculateCollisionPoint(particle); //Find our point of collision
 	void checkBackCollision(particle, float angle, bool isTarget);
 
-	vector velocity;
+	
 	vector gravity;
 	vector color;
 

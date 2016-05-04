@@ -15,11 +15,18 @@ public:
 	void drawCannon();
 	void controlEvent(unsigned char key, bool keyPressed);
 	void draw();
+	
+	void setRocketRelease(bool);
+	bool checkRocketRelease();
+	float getCannonAngle();
+	float getInverseCannonAngle();
 
 	float getFuel();
 
 	float playerAngle = 0;
+	float getCannonRotate();
 	
+	vector cannonPosition;
 
 private:
 	bool turningLeft = false;
@@ -27,6 +34,7 @@ private:
 	bool increaseAngleCannon = false;
 	bool decreaseAngleCannon = false;
 	bool Shoot = false;
+	bool releasedRocket = false;
 
 	float cannonRotate = 0;
 	float cannonLength;

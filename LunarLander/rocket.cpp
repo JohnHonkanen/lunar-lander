@@ -189,8 +189,9 @@ void Rocket::update(particle p, bool isTarget)
 
 void Rocket::follow(tank t)
 {
-	position.setX((t.radius + 25) * cos(t.playerAngle) + t.position.getX());
-	position.setY((t.radius + 25) * sin(t.playerAngle) + t.position.getY());
+	position.setX((60) * cos(t.getInverseCannonAngle()) + t.cannonPosition.getX());
+	position.setY((60) * sin(t.getInverseCannonAngle()) + t.cannonPosition.getY());
+	setFacingAngle(t.getInverseCannonAngle() - (M_PI / 2));
 }
 
 float Rocket::getFuel()
