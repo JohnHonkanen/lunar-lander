@@ -12,6 +12,7 @@ particle::particle()
 	@param d	Directional Angle of our Particle
 	@param grav	Gravitation Pull in Y direction
 */
+
 particle::particle(float x, float y, float s, float d, float grav)
 {
 	position = vector(x, y);
